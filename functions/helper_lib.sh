@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Returns the absolute path of a given string
 abspath () { case "$1" in /*)printf "%s\n" "$1";; *)printf "%s\n" "$PWD/$1";; esac; }
@@ -145,6 +145,6 @@ yell "# ------------------------------------------------------------------------
 # Docker, Inc. (c) 2015-$(date +"%Y")
 #
 # Checks for dozens of common best-practices around deploying Docker containers in production.
-# Based on the CIS Docker Benchmark 1.3.1.
+# Inspired by the CIS Docker Benchmark v1.2.0.
 # --------------------------------------------------------------------------------------------"
 }

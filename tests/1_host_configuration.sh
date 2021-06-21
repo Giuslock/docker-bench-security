@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 check_1() {
   logit ""
@@ -11,14 +11,57 @@ check_1() {
 
 check_1_1() {
   local id="1.1"
-  local desc="Linux Hosts Specific Configuration"
+  local desc="General Configuration"
   local check="$id - $desc"
   info "$check"
 }
 
 check_1_1_1() {
   local id="1.1.1"
-  local desc="Ensure a separate partition for containers has been created (Automated)"
+  local desc="Ensure the container host has been Hardened (Not Scored)"
+  local remediation="You may consider various Security Benchmarks for your container host."
+  local remediationImpact="None."
+  local check="$id  - $desc"
+  starttestjson "$id" "$desc"
+
+  note -c "$check"
+  logcheckresult "INFO"
+}
+
+check_1_1_2() {
+  local id="1.1.2"
+  local desc="Ensure that the version of Docker is up to date (Not Scored)"
+  local remediation="You should monitor versions of Docker releases and make sure your software is updated as required."
+  local remediationImpact="You should perform a risk assessment regarding Docker version updates and review how they may impact your operations."
+  local check="$id  - $desc"
+  starttestjson "$id" "$desc"
+
+  docker_version=$(docker version | grep -i -A2 '^server' | grep ' Version:' \
+    | awk '{print $NF; exit}' | tr -d '[:alpha:]-,')
+  docker_current_version="$(date +%y.%m.0 -d @$(( $(date +%s) - 2592000)))"
+  do_version_check "$docker_current_version" "$docker_version"
+  if [ $? -eq 11 ]; then
+    pass -c "$check"
+    info "       * Using $docker_version, verify is it up to date as deemed necessary"
+    logcheckresult "INFO" "Using $docker_version"
+    return
+  fi
+  pass -c "$check"
+  info "       * Using $docker_version which is current"
+  info "       * Check with your operating system vendor for support and security maintenance for Docker"
+  logcheckresult "PASS" "Using $docker_version"
+}
+
+check_1_2() {
+  local id="1.2"
+  local desc="Linux Hosts Specific Configuration"
+  local check="$id - $desc"
+  info "$check"
+}
+
+check_1_2_1() {
+  local id="1.2.1"
+  local desc="Ensure a separate partition for containers has been created (Scored)"
   local remediation="For new installations, you should create a separate partition for the /var/lib/docker mount point. For systems that have already been installed, you should use the Logical Volume Manager (LVM) within Linux to create a new partition."
   local remediationImpact="None."
   local check="$id - $desc"
@@ -38,9 +81,9 @@ check_1_1_1() {
   logcheckresult "WARN"
 }
 
-check_1_1_2() {
-  local id="1.1.2"
-  local desc="Ensure only trusted users are allowed to control Docker daemon (Automated)"
+check_1_2_2() { 
+  local id="1.2.2"
+  local desc="Ensure only trusted users are allowed to control Docker daemon (Scored)"
   local remediation="You should remove any untrusted users from the docker group using command sudo gpasswd -d <your-user> docker or add trusted users to the docker group using command sudo usermod -aG docker <your-user>. You should not create a mapping of sensitive directories from the host to container volumes."
   local remediationImpact="Only trust user are allow to build and execute containers as normal user."
   local check="$id - $desc"
@@ -80,12 +123,12 @@ check_1_1_2() {
   fi
 }
 
-check_1_1_3() {
-  local id="1.1.3"
-  local desc="Ensure auditing is configured for the Docker daemon (Automated)"
+check_1_2_3() {
+  local id="1.2.3"
+  local desc="Ensure auditing is configured for the Docker daemon (Scored)"
   local remediation="Install auditd. Add -w /usr/bin/dockerd -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   file="/usr/bin/dockerd"
@@ -108,40 +151,12 @@ check_1_1_3() {
   logcheckresult "WARN"
 }
 
-check_1_1_4() {
-  local id="1.1.4"
-  local desc="Ensure auditing is configured for Docker files and directories -/run/containerd (Automated)"
-  local remediation="Install auditd. Add -a exit,always -F path=/run/containerd -F perm=war -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
-  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  file="/run/containerd"
-  if command -v auditctl >/dev/null 2>&1; then
-    if auditctl -l | grep "$file" >/dev/null 2>&1; then
-      pass -s "$check"
-      logcheckresult "PASS"
-      return
-    fi
-    warn -s "$check"
-    logcheckresult "WARN"
-    return
-  fi
-  if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
-    pass -s "$check"
-    logcheckresult "PASS"
-    return
-  fi
-  warn -s "$check"
-  logcheckresult "WARN"
-}
-
-check_1_1_5() {
-  local id="1.1.5"
-  local desc="Ensure auditing is configured for Docker files and directories - /var/lib/docker (Automated)"
+check_1_2_4() {
+  local id="1.2.4"
+  local desc="Ensure auditing is configured for Docker files and directories - /var/lib/docker (Scored)"
   local remediation="Install auditd. Add -w /var/lib/docker -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   directory="/var/lib/docker"
@@ -170,12 +185,12 @@ check_1_1_5() {
   logcheckresult "INFO" "Directory not found"
 }
 
-check_1_1_6() {
-  local id="1.1.6"
-  local desc="Ensure auditing is configured for Docker files and directories - /etc/docker (Automated)"
+check_1_2_5() {
+  local id="1.2.5"
+  local desc="Ensure auditing is configured for Docker files and directories - /etc/docker (Scored)"
   local remediation="Install auditd. Add -w /etc/docker -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   directory="/etc/docker"
@@ -204,13 +219,13 @@ check_1_1_6() {
   logcheckresult "INFO" "Directory not found"
 }
 
-check_1_1_7() {
-  local id="1.1.7"
-  local desc="Ensure auditing is configured for Docker files and directories - docker.service (Automated)"
+check_1_2_6() {
+  local id="1.2.6"
+  local desc="Ensure auditing is configured for Docker files and directories - docker.service (Scored)"
   local remediation
   remediation="Install auditd. Add -w $(get_service_file docker.service) -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   file="$(get_service_file docker.service)"
@@ -239,47 +254,13 @@ check_1_1_7() {
   logcheckresult "INFO" "File not found"
 }
 
-check_1_1_8() {
-  local id="1.1.8"
-  local desc="Ensure auditing is configured for Docker files and directories - containerd.sock (Automated)"
-  local remediation
-  remediation="Install auditd. Add -w $(get_service_file containerd.socket) -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
-  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  file="$(get_service_file containerd.socket)"
-  if [ -e "$file" ]; then
-    if command -v auditctl >/dev/null 2>&1; then
-      if auditctl -l | grep "$file" >/dev/null 2>&1; then
-        pass -s "$check"
-        logcheckresult "PASS"
-        return
-      fi
-      warn -s "$check"
-      logcheckresult "WARN"
-      return
-    fi
-    if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
-      pass -s "$check"
-      logcheckresult "PASS"
-      return
-    fi
-    warn -s "$check"
-    logcheckresult "WARN"
-    return
-  fi
-  info -c "$check"
-  info "       * File not found"
-  logcheckresult "INFO" "File not found"
-}
-check_1_1_9() {
-  local id="1.1.9"
-  local desc="Ensure auditing is configured for Docker files and directories - docker.socket (Automated)"
+check_1_2_7() {
+  local id="1.2.7"
+  local desc="Ensure auditing is configured for Docker files and directories - docker.socket (Scored)"
   local remediation
   remediation="Install auditd. Add -w $(get_service_file docker.socket) -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   file="$(get_service_file docker.socket)"
@@ -308,12 +289,12 @@ check_1_1_9() {
   logcheckresult "INFO" "File not found"
 }
 
-check_1_1_10() {
-  local id="1.1.10"
-  local desc="Ensure auditing is configured for Docker files and directories - /etc/default/docker (Automated)"
+check_1_2_8() {
+  local id="1.2.8"
+  local desc="Ensure auditing is configured for Docker files and directories - /etc/default/docker (Scored)"
   local remediation="Install auditd. Add -w /etc/default/docker -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   file="/etc/default/docker"
@@ -342,80 +323,12 @@ check_1_1_10() {
   logcheckresult "INFO" "File not found"
 }
 
-check_1_1_11() {
-  local id="1.1.11"
-  local desc="Ensure auditing is configured for Dockerfiles and directories - /etc/docker/daemon.json (Automated)"
-  local remediation="Install auditd. Add -w /etc/docker/daemon.json -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
-  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  file="/etc/docker/daemon.json"
-  if [ -f "$file" ]; then
-    if command -v auditctl >/dev/null 2>&1; then
-      if auditctl -l | grep $file >/dev/null 2>&1; then
-        pass -s "$check"
-        logcheckresult "PASS"
-        return
-      fi
-      warn -s "$check"
-      logcheckresult "WARN"
-      return
-    fi
-    if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
-      pass -s "$check"
-      logcheckresult "PASS"
-      return
-    fi
-    warn -s "$check"
-    logcheckresult "WARN"
-    return
-  fi
-  info -c "$check"
-  info "       * File not found"
-  logcheckresult "INFO" "File not found"
-}
-
-check_1_1_12() {
-  local id="1.1.12"
-  local desc="1.1.12 Ensure auditing is configured for Dockerfiles and directories - /etc/containerd/config.toml (Automated)"
-  local remediation="Install auditd. Add -w /etc/containerd/config.toml -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
-  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  file="/etc/containerd/config.toml"
-  if [ -f "$file" ]; then
-    if command -v auditctl >/dev/null 2>&1; then
-      if auditctl -l | grep $file >/dev/null 2>&1; then
-        pass -s "$check"
-        logcheckresult "PASS"
-        return
-      fi
-      warn -s "$check"
-      logcheckresult "WARN"
-      return
-    fi
-    if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
-      pass -s "$check"
-      logcheckresult "PASS"
-      return
-    fi
-    warn -s "$check"
-    logcheckresult "WARN"
-    return
-  fi
-  info -c "$check"
-  info "       * File not found"
-  logcheckresult "INFO" "File not found"
-}
-
-check_1_1_13() {
-  local id="1.1.13"
-  local desc="Ensure auditing is configured for Docker files and directories - /etc/sysconfig/docker (Automated)"
+check_1_2_9() {
+  local id="1.2.9"
+  local desc="Ensure auditing is configured for Docker files and directories - /etc/sysconfig/docker (Scored)"
   local remediation="Install auditd. Add -w /etc/sysconfig/docker -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   file="/etc/sysconfig/docker"
@@ -444,12 +357,46 @@ check_1_1_13() {
   logcheckresult "INFO" "File not found"
 }
 
-check_1_1_14() {
-  local id="1.1.14"
-  local desc="Ensure auditing is configured for Docker files and directories - /usr/bin/containerd (Automated)"
+check_1_2_10() {
+  local id="1.2.10"
+  local desc="Ensure auditing is configured for Docker files and directories - /etc/docker/daemon.json (Scored)"
+  local remediation="Install auditd. Add -w /etc/docker/daemon.json -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
+  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
+  local check="$id  - $desc"
+  starttestjson "$id" "$desc"
+
+  file="/etc/docker/daemon.json"
+  if [ -f "$file" ]; then
+    if command -v auditctl >/dev/null 2>&1; then
+      if auditctl -l | grep $file >/dev/null 2>&1; then
+        pass -s "$check"
+        logcheckresult "PASS"
+        return
+      fi
+      warn -s "$check"
+      logcheckresult "WARN"
+      return
+    fi
+    if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
+      pass -s "$check"
+      logcheckresult "PASS"
+      return
+    fi
+    warn -s "$check"
+    logcheckresult "WARN"
+    return
+  fi
+  info -c "$check"
+  info "        * File not found"
+  logcheckresult "INFO" "File not found"
+}
+
+check_1_2_11() {
+  local id="1.2.11"
+  local desc="Ensure auditing is configured for Docker files and directories - /usr/bin/containerd (Scored)"
   local remediation="Install auditd. Add -w /usr/bin/containerd -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
   file="/usr/bin/containerd"
@@ -478,15 +425,15 @@ check_1_1_14() {
   logcheckresult "INFO" "File not found"
 }
 
-check_1_1_15() {
-  local id="1.1.15"
-  local desc="Ensure auditing is configured for Docker files and directories - /usr/bin/containerd-shim (Automated)"
-  local remediation="Install auditd. Add -w /usr/bin/containerd-shim -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
+check_1_2_12() {
+  local id="1.2.12"
+  local desc="Ensure auditing is configured for Docker files and directories - /usr/sbin/runc (Scored)"
+  local remediation="Install auditd. Add -w /usr/sbin/runc -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
   local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
+  local check="$id  - $desc"
   starttestjson "$id" "$desc"
 
-  file="/usr/bin/containerd-shim"
+  file="/usr/sbin/runc"
   if [ -f "$file" ]; then
     if command -v auditctl >/dev/null 2>&1; then
       if auditctl -l | grep $file >/dev/null 2>&1; then
@@ -510,151 +457,6 @@ check_1_1_15() {
   info -c "$check"
   info "        * File not found"
   logcheckresult "INFO" "File not found"
-}
-
-check_1_1_16() {
-  local id="1.1.16"
-  local desc="Ensure auditing is configured for Docker files and directories - /usr/bin/containerd-shim-runc-v1 (Automated)"
-  local remediation="Install auditd. Add -w /usr/bin/containerd-shim-runc-v1 -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
-  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  file="/usr/bin/containerd-shim-runc-v1"
-  if [ -f "$file" ]; then
-    if command -v auditctl >/dev/null 2>&1; then
-      if auditctl -l | grep $file >/dev/null 2>&1; then
-        pass -s "$check"
-        logcheckresult "PASS"
-        return
-      fi
-      warn -s "$check"
-      logcheckresult "WARN"
-      return
-    fi
-    if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
-      pass -s "$check"
-      logcheckresult "PASS"
-      return
-    fi
-    warn -s "$check"
-    logcheckresult "WARN"
-    return
-  fi
-  info -c "$check"
-  info "        * File not found"
-  logcheckresult "INFO" "File not found"
-}
-
-check_1_1_17() {
-  local id="1.1.17"
-  local desc="Ensure auditing is configured for Docker files and directories - /usr/bin/containerd-shim-runc-v2 (Automated)"
-  local remediation="Install auditd. Add -w /usr/bin/containerd-shim-runc-v2 -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
-  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  file="/usr/bin/containerd-shim-runc-v2"
-  if [ -f "$file" ]; then
-    if command -v auditctl >/dev/null 2>&1; then
-      if auditctl -l | grep $file >/dev/null 2>&1; then
-        pass -s "$check"
-        logcheckresult "PASS"
-        return
-      fi
-      warn -s "$check"
-      logcheckresult "WARN"
-      return
-    fi
-    if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
-      pass -s "$check"
-      logcheckresult "PASS"
-      return
-    fi
-    warn -s "$check"
-    logcheckresult "WARN"
-    return
-  fi
-  info -c "$check"
-  info "        * File not found"
-  logcheckresult "INFO" "File not found"
-}
-
-check_1_1_18() {
-  local id="1.1.18"
-  local desc="Ensure auditing is configured for Docker files and directories - /usr/bin/runc (Automated)"
-  local remediation="Install auditd. Add -w /usr/bin/runc -k docker to the /etc/audit/rules.d/audit.rules file. Then restart the audit daemon using command service auditd restart."
-  local remediationImpact="Audit can generate large log files. So you need to make sure that they are rotated and archived periodically. Create a separate partition for audit logs to avoid filling up other critical partitions."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  file="/usr/bin/runc"
-  if [ -f "$file" ]; then
-    if command -v auditctl >/dev/null 2>&1; then
-      if auditctl -l | grep $file >/dev/null 2>&1; then
-        pass -s "$check"
-        logcheckresult "PASS"
-        return
-      fi
-      warn -s "$check"
-      logcheckresult "WARN"
-      return
-    fi
-    if grep -s "$file" "$auditrules" | grep "^[^#;]" 2>/dev/null 1>&2; then
-      pass -s "$check"
-      logcheckresult "PASS"
-      return
-    fi
-    warn -s "$check"
-    logcheckresult "WARN"
-    return
-  fi
-  info -c "$check"
-  info "        * File not found"
-  logcheckresult "INFO" "File not found"
-}
-
-check_1_2() {
-  local id="1.2"
-  local desc="General Configuration"
-  local check="$id - $desc"
-  info "$check"
-}
-
-check_1_2_1() {
-  local id="1.2.1"
-  local desc="Ensure the container host has been Hardened (Manual)"
-  local remediation="You may consider various Security Benchmarks for your container host."
-  local remediationImpact="None."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  note -c "$check"
-  logcheckresult "INFO"
-}
-
-check_1_2_2() {
-  local id="1.2.2"
-  local desc="Ensure that the version of Docker is up to date (Manual)"
-  local remediation="You should monitor versions of Docker releases and make sure your software is updated as required."
-  local remediationImpact="You should perform a risk assessment regarding Docker version updates and review how they may impact your operations."
-  local check="$id - $desc"
-  starttestjson "$id" "$desc"
-
-  docker_version=$(docker version | grep -i -A2 '^server' | grep ' Version:' \
-    | awk '{print $NF; exit}' | tr -d '[:alpha:]-,')
-  docker_current_version="$(date +%y.%m.0 -d @$(( $(date +%s) - 2592000)))"
-  do_version_check "$docker_current_version" "$docker_version"
-  if [ $? -eq 11 ]; then
-    pass -c "$check"
-    info "       * Using $docker_version, verify is it up to date as deemed necessary"
-    logcheckresult "INFO" "Using $docker_version"
-    return
-  fi
-  pass -c "$check"
-  info "       * Using $docker_version which is current"
-  info "       * Check with your operating system vendor for support and security maintenance for Docker"
-  logcheckresult "PASS" "Using $docker_version"
 }
 
 check_1_end() {
