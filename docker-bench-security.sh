@@ -203,9 +203,9 @@ main () {
     logit "${globalRemediation}"
   fi
 
-  logit "\n\n${bldylw}Section C - Score${txtrst}\n"
+  logit "\n\n${bldylw}Section C - Checks${txtrst}\n"
   info "Checks: $totalChecks"
-  info "Score: $currentScore\n"
+  
 
   endjson "$totalChecks" "$currentScore" "$(date +%s)"
 }
