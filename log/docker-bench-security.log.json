@@ -1,6 +1,6 @@
 {
   "dockerbenchsecurity": "1.3.6",
-  "start": 1624285614,
+  "start": 1631630347,
   "tests": [
     {
       "id": "4",
@@ -10,9 +10,9 @@
           "id": "4.1",
           "desc": "Ensure that a user for the container has been created (Scored)",
           "result": "WARN",
-          "details": "running as root:  strange_saha strange_nightingale",
+          "details": "running as root:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile.",
           "remediation-impact": "Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements."
@@ -49,9 +49,9 @@
           "id": "4.6",
           "desc": "Ensure that HEALTHCHECK instructions have been added to container images (Scored)",
           "result": "WARN",
-          "details": "Images w/o HEALTHCHECK:  [ubuntu:latest] [alpine:latest] [nginx:latest]",
+          "details": "Images w/o HEALTHCHECK:  [wordpress:latest] [redis:latest] [nginx:latest] [mysql:latest] [debian:latest] [alpine:latest] [ubuntu:latest] [hello-world:latest]",
           "items": [
-            "[ubuntu:latest]","[alpine:latest]","[nginx:latest]"
+            "[wordpress:latest]","[redis:latest]","[nginx:latest]","[mysql:latest]","[debian:latest]","[alpine:latest]","[ubuntu:latest]","[hello-world:latest]"
           ],
           "remediation": "You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction.",
           "remediation-impact": "None."
@@ -59,7 +59,13 @@
         {
           "id": "4.7",
           "desc": "Ensure update instructions are not used alone in the Dockerfile (Not Scored)",
-          "result": "PASS"
+          "result": "INFO",
+          "details": "Update instructions found:  [wordpress:latest] [mysql:latest]",
+          "items": [
+            "[wordpress:latest]","[mysql:latest]"
+          ],
+          "remediation": "You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers.",
+          "remediation-impact": "None."
         },
         {
           "id": "4.8",
@@ -102,9 +108,9 @@
           "id": "5.2",
           "desc": "Ensure that, if applicable, SELinux security options are set (Scored)",
           "result": "WARN",
-          "details": "Containers with no SecurityOptions:  strange_saha strange_nightingale",
+          "details": "Containers with no SecurityOptions:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options.",
           "remediation-impact": "Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers."
@@ -150,9 +156,9 @@
           "id": "5.10",
           "desc": "Ensure that the memory usage for containers is limited (Scored)",
           "result": "WARN",
-          "details": "Container running without memory restrictions:  strange_saha strange_nightingale",
+          "details": "Container running without memory restrictions:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "You should run the container with only as much memory as it requires by using the --memory argument.",
           "remediation-impact": "If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources."
@@ -161,9 +167,9 @@
           "id": "5.11",
           "desc": "Ensure that CPU priority is set appropriately on containers (Scored)",
           "result": "WARN",
-          "details": "Containers running without CPU restrictions:  strange_saha strange_nightingale",
+          "details": "Containers running without CPU restrictions:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument.",
           "remediation-impact": "If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources."
@@ -172,9 +178,9 @@
           "id": "5.12",
           "desc": "Ensure that the container's root filesystem is mounted as read only (Scored)",
           "result": "WARN",
-          "details": "Containers running with root FS mounted R/W:  strange_saha strange_nightingale",
+          "details": "Containers running with root FS mounted R/W:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only.",
           "remediation-impact": "Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use."
@@ -188,9 +194,9 @@
           "id": "5.14",
           "desc": "Ensure that the 'on-failure' container restart policy is set to '5' (Scored)",
           "result": "WARN",
-          "details": "Containers with MaximumRetryCount not set to 5:  strange_saha strange_nightingale",
+          "details": "Containers with MaximumRetryCount not set to 5:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx",
           "remediation-impact": "If this option is set, a container will only attempt to restart itself 5 times."
@@ -214,9 +220,9 @@
           "id": "5.18",
           "desc": "Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)",
           "result": "INFO",
-          "details": "Containers with no default ulimit override:  strange_saha strange_nightingale",
+          "details": "Containers with no default ulimit override:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "You should only override the default ulimit settings if needed in a specific case.",
           "remediation-impact": "If ulimits are not set correctly, overutilization by individual containers could make the host system unusable."
@@ -259,9 +265,9 @@
           "id": "5.25",
           "desc": "Ensure that the container is restricted from acquiring additional privileges (Scored)",
           "result": "WARN",
-          "details": "Containers without restricted privileges:  strange_saha strange_nightingale",
+          "details": "Containers without restricted privileges:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash",
           "remediation-impact": "The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges."
@@ -270,9 +276,9 @@
           "id": "5.26",
           "desc": "Ensure that container health is checked at runtime (Scored)",
           "result": "WARN",
-          "details": "Containers without health check:  strange_saha strange_nightingale",
+          "details": "Containers without health check:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "You should run the container using the --health-cmd parameter.",
           "remediation-impact": "None."
@@ -288,9 +294,9 @@
           "id": "5.28",
           "desc": "Ensure that the PIDs cgroup limit is used (Scored)",
           "result": "WARN",
-          "details": "Containers without PIDs cgroup limit:  strange_saha strange_nightingale",
+          "details": "Containers without PIDs cgroup limit:  affectionate_wilbur silly_keller affectionate_robinson",
           "items": [
-            "strange_saha","strange_nightingale"
+            "affectionate_wilbur","silly_keller","affectionate_robinson"
           ],
           "remediation": "Use --pids-limit flag with an appropriate value when launching the container.",
           "remediation-impact": "Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable."
@@ -299,9 +305,9 @@
           "id": "5.29",
           "desc": "Ensure that Docker's default bridge docker0 is not used (Not Scored)",
           "result": "INFO",
-          "details": "Containers using docker0 network:  2cdc4fae0d6a2ba3beceb112f3652a558a0871f9efa63a97f04e36372cc582fe:strange_saha bde1339565cb31903b212e7d1fe5283a314520ba5e7b4c61a78934e89bd418f9:strange_nightingale",
+          "details": "Containers using docker0 network:  84de42ef4191219bd3f6f2da8c6b9f070d31965b0c1e3da10172e17d57950f07:silly_keller 8906b008b1431ec9d96d61588d62b16ceca17acbc745857c9bbf1901557c898c:affectionate_robinson b8f374f00d3944bbadc4684c8fd34cc865b519ec266903424e38b126eafcfdc3:affectionate_wilbur",
           "items": [
-            "2cdc4fae0d6a2ba3beceb112f3652a558a0871f9efa63a97f04e36372cc582fe:strange_saha","bde1339565cb31903b212e7d1fe5283a314520ba5e7b4c61a78934e89bd418f9:strange_nightingale"
+            "84de42ef4191219bd3f6f2da8c6b9f070d31965b0c1e3da10172e17d57950f07:silly_keller","8906b008b1431ec9d96d61588d62b16ceca17acbc745857c9bbf1901557c898c:affectionate_robinson","b8f374f00d3944bbadc4684c8fd34cc865b519ec266903424e38b126eafcfdc3:affectionate_wilbur"
           ],
           "remediation": "You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network.",
           "remediation-impact": "User-defined networks need to be configured and managed in line with organizational security policy."
@@ -321,5 +327,5 @@
   ],
   "checks": 42,
   "score": 5,
-  "end": 1624285644
+  "end": 1631630358
 }

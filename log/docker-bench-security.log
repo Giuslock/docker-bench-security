@@ -677,3 +677,1035 @@ Initializing 2021-06-21T16:26:54+02:00
 [1;34m[INFO][0m Checks: 42
 [1;34m[INFO][0m Score: 5
 
+Initializing 2021-08-08T22:07:56+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;31m[WARN][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;31m[WARN][0m      * Running as root: vibrant_galois
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;32m[PASS][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;32m[PASS][0m 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled (Scored)
+[1;31m[WARN][0m 5.2  - Ensure that, if applicable, SELinux security options are set (Scored)
+[1;31m[WARN][0m      * No SecurityOptions Found: vibrant_galois
+[1;32m[PASS][0m 5.3  - Ensure that Linux kernel capabilities are restricted within containers (Scored)
+[1;32m[PASS][0m 5.4  - Ensure that privileged containers are not used (Scored)
+[1;32m[PASS][0m 5.5  - Ensure sensitive host system directories are not mounted on containers (Scored)
+[1;32m[PASS][0m 5.6  - Ensure sshd is not run within containers (Scored)
+[1;32m[PASS][0m 5.7  - Ensure privileged ports are not mapped within containers (Scored)
+[1;33m[NOTE][0m 5.8  - Ensure that only needed ports are open on the container (Not Scored)
+[1;32m[PASS][0m 5.9  - Ensure that the host's network namespace is not shared (Scored)
+[1;31m[WARN][0m 5.10  - Ensure that the memory usage for containers is limited (Scored)
+[1;31m[WARN][0m       * Container running without memory restrictions: vibrant_galois
+[1;31m[WARN][0m 5.11  - Ensure that CPU priority is set appropriately on containers (Scored)
+[1;31m[WARN][0m       * Container running without CPU restrictions: vibrant_galois
+[1;31m[WARN][0m 5.12  - Ensure that the container's root filesystem is mounted as read only (Scored)
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: vibrant_galois
+[1;32m[PASS][0m 5.13  - Ensure that incoming container traffic is bound to a specific host interface (Scored)
+[1;31m[WARN][0m 5.14  - Ensure that the 'on-failure' container restart policy is set to '5' (Scored)
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: vibrant_galois
+[1;32m[PASS][0m 5.15  - Ensure that the host's process namespace is not shared (Scored)
+[1;32m[PASS][0m 5.16  - Ensure that the host's IPC namespace is not shared (Scored)
+[1;32m[PASS][0m 5.17  - Ensure that host devices are not directly exposed to containers (Not Scored)
+[1;34m[INFO][0m 5.18  - Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)
+[1;34m[INFO][0m       * Container no default ulimit override: vibrant_galois
+[1;32m[PASS][0m 5.19  - Ensure mount propagation mode is not set to shared (Scored)
+[1;32m[PASS][0m 5.20  - Ensure that the host's UTS namespace is not shared (Scored)
+[1;32m[PASS][0m 5.21  - Ensurethe default seccomp profile is not Disabled (Scored)
+[1;33m[NOTE][0m 5.22  - Ensure that docker exec commands are not used with the privileged option (Scored)
+[1;33m[NOTE][0m 5.23  - Ensure that docker exec commands are not used with the user=root option (Not Scored)
+[1;32m[PASS][0m 5.24  - Ensure that cgroup usage is confirmed (Scored)
+[1;31m[WARN][0m 5.25  - Ensure that the container is restricted from acquiring additional privileges (Scored)
+[1;31m[WARN][0m       * Privileges not restricted: vibrant_galois
+[1;31m[WARN][0m 5.26  - Ensure that container health is checked at runtime (Scored)
+[1;31m[WARN][0m       * Health check not set: vibrant_galois
+[1;34m[INFO][0m 5.27  - Ensure that Docker commands always make use of the latest version of their image (Not Scored)
+[1;31m[WARN][0m 5.28  - Ensure that the PIDs cgroup limit is used (Scored)
+[1;31m[WARN][0m       * PIDs limit not set: vibrant_galois
+[1;34m[INFO][0m 5.29  - Ensure that Docker's default bridge docker0 is not used (Not Scored)
+[1;34m[INFO][0m       * Container in docker0 network: vibrant_galois
+[1;32m[PASS][0m 5.30  - Ensure that the host's user namespaces are not shared (Scored)
+[1;32m[PASS][0m 5.31  - Ensure that the Docker socket is not mounted inside any containers (Scored)
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m 5.2 - Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options. Remediation Impact: Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers.
+[1;34m[INFO][0m 5.8 - You should ensure that the Dockerfile for each container image only exposes needed ports. Remediation Impact: None.
+[1;34m[INFO][0m 5.10 - You should run the container with only as much memory as it requires by using the --memory argument. Remediation Impact: If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources.
+[1;34m[INFO][0m 5.11 - You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument. Remediation Impact: If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources.
+[1;34m[INFO][0m 5.12 - You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only. Remediation Impact: Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use.
+[1;34m[INFO][0m 5.14 - If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx Remediation Impact: If this option is set, a container will only attempt to restart itself 5 times.
+[1;34m[INFO][0m 5.18 - You should only override the default ulimit settings if needed in a specific case. Remediation Impact: If ulimits are not set correctly, overutilization by individual containers could make the host system unusable.
+[1;34m[INFO][0m 5.22 - You should not use the --privileged option in docker exec commands. Remediation Impact: If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually.
+[1;34m[INFO][0m 5.23 - You should not use the --user=root option in docker exec commands. Remediation Impact: None.
+[1;34m[INFO][0m 5.25 - You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash Remediation Impact: The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges.
+[1;34m[INFO][0m 5.26 - You should run the container using the --health-cmd parameter. Remediation Impact: None.
+[1;34m[INFO][0m 5.27 - You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements. Remediation Impact: None.
+[1;34m[INFO][0m 5.28 - Use --pids-limit flag with an appropriate value when launching the container. Remediation Impact: Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable.
+[1;34m[INFO][0m 5.29 - You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network. Remediation Impact: User-defined networks need to be configured and managed in line with organizational security policy.
+
+
+[1;33mSection C - Score[0m
+
+[1;34m[INFO][0m Checks: 42
+[1;34m[INFO][0m Score: 5
+
+Initializing 2021-08-26T15:16:44+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;34m[INFO][0m      * No containers running
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;32m[PASS][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m   * No containers running, skipping Section 5
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+
+[1;33mSection C - Score[0m
+
+[1;34m[INFO][0m Checks: 11
+[1;34m[INFO][0m Score: -2
+
+Initializing 2021-08-26T16:54:36+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;31m[WARN][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;31m[WARN][0m      * Running as root: modest_rosalind
+[1;31m[WARN][0m      * Running as root: peaceful_napier
+[1;31m[WARN][0m      * Running as root: wizardly_allen
+[1;31m[WARN][0m      * Running as root: heuristic_kalam
+[1;31m[WARN][0m      * Running as root: gifted_tu
+[1;31m[WARN][0m      * Running as root: ecstatic_beaver
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;32m[PASS][0m 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled (Scored)
+[1;31m[WARN][0m 5.2  - Ensure that, if applicable, SELinux security options are set (Scored)
+[1;31m[WARN][0m      * No SecurityOptions Found: modest_rosalind
+[1;31m[WARN][0m      * No SecurityOptions Found: peaceful_napier
+[1;31m[WARN][0m      * No SecurityOptions Found: wizardly_allen
+[1;31m[WARN][0m      * No SecurityOptions Found: heuristic_kalam
+[1;31m[WARN][0m      * No SecurityOptions Found: gifted_tu
+[1;31m[WARN][0m      * No SecurityOptions Found: ecstatic_beaver
+[1;32m[PASS][0m 5.3  - Ensure that Linux kernel capabilities are restricted within containers (Scored)
+[1;32m[PASS][0m 5.4  - Ensure that privileged containers are not used (Scored)
+[1;32m[PASS][0m 5.5  - Ensure sensitive host system directories are not mounted on containers (Scored)
+[1;32m[PASS][0m 5.6  - Ensure sshd is not run within containers (Scored)
+[1;32m[PASS][0m 5.7  - Ensure privileged ports are not mapped within containers (Scored)
+[1;33m[NOTE][0m 5.8  - Ensure that only needed ports are open on the container (Not Scored)
+[1;32m[PASS][0m 5.9  - Ensure that the host's network namespace is not shared (Scored)
+[1;31m[WARN][0m 5.10  - Ensure that the memory usage for containers is limited (Scored)
+[1;31m[WARN][0m       * Container running without memory restrictions: modest_rosalind
+[1;31m[WARN][0m       * Container running without memory restrictions: peaceful_napier
+[1;31m[WARN][0m       * Container running without memory restrictions: wizardly_allen
+[1;31m[WARN][0m       * Container running without memory restrictions: heuristic_kalam
+[1;31m[WARN][0m       * Container running without memory restrictions: gifted_tu
+[1;31m[WARN][0m       * Container running without memory restrictions: ecstatic_beaver
+[1;31m[WARN][0m 5.11  - Ensure that CPU priority is set appropriately on containers (Scored)
+[1;31m[WARN][0m       * Container running without CPU restrictions: modest_rosalind
+[1;31m[WARN][0m       * Container running without CPU restrictions: peaceful_napier
+[1;31m[WARN][0m       * Container running without CPU restrictions: wizardly_allen
+[1;31m[WARN][0m       * Container running without CPU restrictions: heuristic_kalam
+[1;31m[WARN][0m       * Container running without CPU restrictions: gifted_tu
+[1;31m[WARN][0m       * Container running without CPU restrictions: ecstatic_beaver
+[1;31m[WARN][0m 5.12  - Ensure that the container's root filesystem is mounted as read only (Scored)
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: modest_rosalind
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: peaceful_napier
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: wizardly_allen
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: heuristic_kalam
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: gifted_tu
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: ecstatic_beaver
+[1;32m[PASS][0m 5.13  - Ensure that incoming container traffic is bound to a specific host interface (Scored)
+[1;31m[WARN][0m 5.14  - Ensure that the 'on-failure' container restart policy is set to '5' (Scored)
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: modest_rosalind
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: peaceful_napier
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: wizardly_allen
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: heuristic_kalam
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: gifted_tu
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: ecstatic_beaver
+[1;32m[PASS][0m 5.15  - Ensure that the host's process namespace is not shared (Scored)
+[1;32m[PASS][0m 5.16  - Ensure that the host's IPC namespace is not shared (Scored)
+[1;32m[PASS][0m 5.17  - Ensure that host devices are not directly exposed to containers (Not Scored)
+[1;34m[INFO][0m 5.18  - Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)
+[1;34m[INFO][0m       * Container no default ulimit override: modest_rosalind
+[1;34m[INFO][0m       * Container no default ulimit override: peaceful_napier
+[1;34m[INFO][0m       * Container no default ulimit override: wizardly_allen
+[1;34m[INFO][0m       * Container no default ulimit override: heuristic_kalam
+[1;34m[INFO][0m       * Container no default ulimit override: gifted_tu
+[1;34m[INFO][0m       * Container no default ulimit override: ecstatic_beaver
+[1;32m[PASS][0m 5.19  - Ensure mount propagation mode is not set to shared (Scored)
+[1;32m[PASS][0m 5.20  - Ensure that the host's UTS namespace is not shared (Scored)
+[1;32m[PASS][0m 5.21  - Ensurethe default seccomp profile is not Disabled (Scored)
+[1;33m[NOTE][0m 5.22  - Ensure that docker exec commands are not used with the privileged option (Scored)
+[1;33m[NOTE][0m 5.23  - Ensure that docker exec commands are not used with the user=root option (Not Scored)
+[1;32m[PASS][0m 5.24  - Ensure that cgroup usage is confirmed (Scored)
+[1;31m[WARN][0m 5.25  - Ensure that the container is restricted from acquiring additional privileges (Scored)
+[1;31m[WARN][0m       * Privileges not restricted: modest_rosalind
+[1;31m[WARN][0m       * Privileges not restricted: peaceful_napier
+[1;31m[WARN][0m       * Privileges not restricted: wizardly_allen
+[1;31m[WARN][0m       * Privileges not restricted: heuristic_kalam
+[1;31m[WARN][0m       * Privileges not restricted: gifted_tu
+[1;31m[WARN][0m       * Privileges not restricted: ecstatic_beaver
+[1;31m[WARN][0m 5.26  - Ensure that container health is checked at runtime (Scored)
+[1;31m[WARN][0m       * Health check not set: modest_rosalind
+[1;31m[WARN][0m       * Health check not set: peaceful_napier
+[1;31m[WARN][0m       * Health check not set: wizardly_allen
+[1;31m[WARN][0m       * Health check not set: heuristic_kalam
+[1;31m[WARN][0m       * Health check not set: gifted_tu
+[1;31m[WARN][0m       * Health check not set: ecstatic_beaver
+[1;34m[INFO][0m 5.27  - Ensure that Docker commands always make use of the latest version of their image (Not Scored)
+[1;31m[WARN][0m 5.28  - Ensure that the PIDs cgroup limit is used (Scored)
+[1;31m[WARN][0m       * PIDs limit not set: modest_rosalind
+[1;31m[WARN][0m       * PIDs limit not set: peaceful_napier
+[1;31m[WARN][0m       * PIDs limit not set: wizardly_allen
+[1;31m[WARN][0m       * PIDs limit not set: heuristic_kalam
+[1;31m[WARN][0m       * PIDs limit not set: gifted_tu
+[1;31m[WARN][0m       * PIDs limit not set: ecstatic_beaver
+[1;34m[INFO][0m 5.29  - Ensure that Docker's default bridge docker0 is not used (Not Scored)
+[1;34m[INFO][0m       * Container in docker0 network: heuristic_kalam
+[1;34m[INFO][0m       * Container in docker0 network: peaceful_napier
+[1;34m[INFO][0m       * Container in docker0 network: gifted_tu
+[1;34m[INFO][0m       * Container in docker0 network: ecstatic_beaver
+[1;34m[INFO][0m       * Container in docker0 network: modest_rosalind
+[1;34m[INFO][0m       * Container in docker0 network: wizardly_allen
+[1;32m[PASS][0m 5.30  - Ensure that the host's user namespaces are not shared (Scored)
+[1;32m[PASS][0m 5.31  - Ensure that the Docker socket is not mounted inside any containers (Scored)
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m 5.2 - Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options. Remediation Impact: Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers.
+[1;34m[INFO][0m 5.8 - You should ensure that the Dockerfile for each container image only exposes needed ports. Remediation Impact: None.
+[1;34m[INFO][0m 5.10 - You should run the container with only as much memory as it requires by using the --memory argument. Remediation Impact: If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources.
+[1;34m[INFO][0m 5.11 - You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument. Remediation Impact: If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources.
+[1;34m[INFO][0m 5.12 - You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only. Remediation Impact: Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use.
+[1;34m[INFO][0m 5.14 - If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx Remediation Impact: If this option is set, a container will only attempt to restart itself 5 times.
+[1;34m[INFO][0m 5.18 - You should only override the default ulimit settings if needed in a specific case. Remediation Impact: If ulimits are not set correctly, overutilization by individual containers could make the host system unusable.
+[1;34m[INFO][0m 5.22 - You should not use the --privileged option in docker exec commands. Remediation Impact: If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually.
+[1;34m[INFO][0m 5.23 - You should not use the --user=root option in docker exec commands. Remediation Impact: None.
+[1;34m[INFO][0m 5.25 - You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash Remediation Impact: The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges.
+[1;34m[INFO][0m 5.26 - You should run the container using the --health-cmd parameter. Remediation Impact: None.
+[1;34m[INFO][0m 5.27 - You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements. Remediation Impact: None.
+[1;34m[INFO][0m 5.28 - Use --pids-limit flag with an appropriate value when launching the container. Remediation Impact: Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable.
+[1;34m[INFO][0m 5.29 - You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network. Remediation Impact: User-defined networks need to be configured and managed in line with organizational security policy.
+
+
+[1;33mSection C - Score[0m
+
+[1;34m[INFO][0m Checks: 42
+[1;34m[INFO][0m Score: 5
+
+Initializing 2021-09-10T13:28:53+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;34m[INFO][0m      * No containers running
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m   * No containers running, skipping Section 5
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+
+[1;33mSection C - Score[0m
+
+[1;34m[INFO][0m Checks: 11
+[1;34m[INFO][0m Score: -2
+
+Initializing 2021-09-10T13:48:41+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;34m[INFO][0m      * No containers running
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m   * No containers running, skipping Section 5
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+
+[1;33mSection C - Score[0m
+
+[1;34m[INFO][0m Checks: 11
+[1;34m[INFO][0m Score: -2
+
+Initializing 2021-09-10T16:54:00+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;34m[INFO][0m      * No containers running
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m   * No containers running, skipping Section 5
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+
+[1;33mSection C - Score[0m
+
+[1;34m[INFO][0m Checks: 11
+Initializing 2021-09-10T16:55:00+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;34m[INFO][0m      * No containers running
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m   * No containers running, skipping Section 5
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+
+[1;33mSection C - Checks[0m
+
+[1;34m[INFO][0m Checks: 11
+Initializing 2021-09-10T17:06:16+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;31m[WARN][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;31m[WARN][0m      * Running as root: tender_buck
+[1;31m[WARN][0m      * Running as root: elated_snyder
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;32m[PASS][0m 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled (Scored)
+[1;31m[WARN][0m 5.2  - Ensure that, if applicable, SELinux security options are set (Scored)
+[1;31m[WARN][0m      * No SecurityOptions Found: tender_buck
+[1;31m[WARN][0m      * No SecurityOptions Found: elated_snyder
+[1;32m[PASS][0m 5.3  - Ensure that Linux kernel capabilities are restricted within containers (Scored)
+[1;32m[PASS][0m 5.4  - Ensure that privileged containers are not used (Scored)
+[1;32m[PASS][0m 5.5  - Ensure sensitive host system directories are not mounted on containers (Scored)
+[1;32m[PASS][0m 5.6  - Ensure sshd is not run within containers (Scored)
+[1;32m[PASS][0m 5.7  - Ensure privileged ports are not mapped within containers (Scored)
+[1;33m[NOTE][0m 5.8  - Ensure that only needed ports are open on the container (Not Scored)
+[1;32m[PASS][0m 5.9  - Ensure that the host's network namespace is not shared (Scored)
+[1;31m[WARN][0m 5.10  - Ensure that the memory usage for containers is limited (Scored)
+[1;31m[WARN][0m       * Container running without memory restrictions: tender_buck
+[1;31m[WARN][0m       * Container running without memory restrictions: elated_snyder
+[1;31m[WARN][0m 5.11  - Ensure that CPU priority is set appropriately on containers (Scored)
+[1;31m[WARN][0m       * Container running without CPU restrictions: tender_buck
+[1;31m[WARN][0m       * Container running without CPU restrictions: elated_snyder
+[1;31m[WARN][0m 5.12  - Ensure that the container's root filesystem is mounted as read only (Scored)
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: tender_buck
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: elated_snyder
+[1;32m[PASS][0m 5.13  - Ensure that incoming container traffic is bound to a specific host interface (Scored)
+[1;31m[WARN][0m 5.14  - Ensure that the 'on-failure' container restart policy is set to '5' (Scored)
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: tender_buck
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: elated_snyder
+[1;32m[PASS][0m 5.15  - Ensure that the host's process namespace is not shared (Scored)
+[1;32m[PASS][0m 5.16  - Ensure that the host's IPC namespace is not shared (Scored)
+[1;32m[PASS][0m 5.17  - Ensure that host devices are not directly exposed to containers (Not Scored)
+[1;34m[INFO][0m 5.18  - Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)
+[1;34m[INFO][0m       * Container no default ulimit override: tender_buck
+[1;34m[INFO][0m       * Container no default ulimit override: elated_snyder
+[1;32m[PASS][0m 5.19  - Ensure mount propagation mode is not set to shared (Scored)
+[1;32m[PASS][0m 5.20  - Ensure that the host's UTS namespace is not shared (Scored)
+[1;32m[PASS][0m 5.21  - Ensurethe default seccomp profile is not Disabled (Scored)
+[1;33m[NOTE][0m 5.22  - Ensure that docker exec commands are not used with the privileged option (Scored)
+[1;33m[NOTE][0m 5.23  - Ensure that docker exec commands are not used with the user=root option (Not Scored)
+[1;32m[PASS][0m 5.24  - Ensure that cgroup usage is confirmed (Scored)
+[1;31m[WARN][0m 5.25  - Ensure that the container is restricted from acquiring additional privileges (Scored)
+[1;31m[WARN][0m       * Privileges not restricted: tender_buck
+[1;31m[WARN][0m       * Privileges not restricted: elated_snyder
+[1;31m[WARN][0m 5.26  - Ensure that container health is checked at runtime (Scored)
+[1;31m[WARN][0m       * Health check not set: tender_buck
+[1;31m[WARN][0m       * Health check not set: elated_snyder
+[1;34m[INFO][0m 5.27  - Ensure that Docker commands always make use of the latest version of their image (Not Scored)
+[1;31m[WARN][0m 5.28  - Ensure that the PIDs cgroup limit is used (Scored)
+[1;31m[WARN][0m       * PIDs limit not set: tender_buck
+[1;31m[WARN][0m       * PIDs limit not set: elated_snyder
+[1;34m[INFO][0m 5.29  - Ensure that Docker's default bridge docker0 is not used (Not Scored)
+[1;34m[INFO][0m       * Container in docker0 network: tender_buck
+[1;34m[INFO][0m       * Container in docker0 network: elated_snyder
+[1;32m[PASS][0m 5.30  - Ensure that the host's user namespaces are not shared (Scored)
+[1;32m[PASS][0m 5.31  - Ensure that the Docker socket is not mounted inside any containers (Scored)
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m 5.2 - Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options. Remediation Impact: Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers.
+[1;34m[INFO][0m 5.8 - You should ensure that the Dockerfile for each container image only exposes needed ports. Remediation Impact: None.
+[1;34m[INFO][0m 5.10 - You should run the container with only as much memory as it requires by using the --memory argument. Remediation Impact: If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources.
+[1;34m[INFO][0m 5.11 - You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument. Remediation Impact: If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources.
+[1;34m[INFO][0m 5.12 - You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only. Remediation Impact: Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use.
+[1;34m[INFO][0m 5.14 - If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx Remediation Impact: If this option is set, a container will only attempt to restart itself 5 times.
+[1;34m[INFO][0m 5.18 - You should only override the default ulimit settings if needed in a specific case. Remediation Impact: If ulimits are not set correctly, overutilization by individual containers could make the host system unusable.
+[1;34m[INFO][0m 5.22 - You should not use the --privileged option in docker exec commands. Remediation Impact: If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually.
+[1;34m[INFO][0m 5.23 - You should not use the --user=root option in docker exec commands. Remediation Impact: None.
+[1;34m[INFO][0m 5.25 - You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash Remediation Impact: The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges.
+[1;34m[INFO][0m 5.26 - You should run the container using the --health-cmd parameter. Remediation Impact: None.
+[1;34m[INFO][0m 5.27 - You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements. Remediation Impact: None.
+[1;34m[INFO][0m 5.28 - Use --pids-limit flag with an appropriate value when launching the container. Remediation Impact: Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable.
+[1;34m[INFO][0m 5.29 - You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network. Remediation Impact: User-defined networks need to be configured and managed in line with organizational security policy.
+
+
+[1;33mSection C - Checks[0m
+
+[1;34m[INFO][0m Checks: 42
+Initializing 2021-09-10T17:10:12+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;31m[WARN][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;31m[WARN][0m      * Running as root: tender_buck
+[1;31m[WARN][0m      * Running as root: elated_snyder
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;32m[PASS][0m 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled (Scored)
+[1;31m[WARN][0m 5.2  - Ensure that, if applicable, SELinux security options are set (Scored)
+[1;31m[WARN][0m      * No SecurityOptions Found: tender_buck
+[1;31m[WARN][0m      * No SecurityOptions Found: elated_snyder
+[1;32m[PASS][0m 5.3  - Ensure that Linux kernel capabilities are restricted within containers (Scored)
+[1;32m[PASS][0m 5.4  - Ensure that privileged containers are not used (Scored)
+[1;32m[PASS][0m 5.5  - Ensure sensitive host system directories are not mounted on containers (Scored)
+[1;32m[PASS][0m 5.6  - Ensure sshd is not run within containers (Scored)
+[1;32m[PASS][0m 5.7  - Ensure privileged ports are not mapped within containers (Scored)
+[1;33m[NOTE][0m 5.8  - Ensure that only needed ports are open on the container (Not Scored)
+[1;32m[PASS][0m 5.9  - Ensure that the host's network namespace is not shared (Scored)
+[1;31m[WARN][0m 5.10  - Ensure that the memory usage for containers is limited (Scored)
+[1;31m[WARN][0m       * Container running without memory restrictions: tender_buck
+[1;31m[WARN][0m       * Container running without memory restrictions: elated_snyder
+[1;31m[WARN][0m 5.11  - Ensure that CPU priority is set appropriately on containers (Scored)
+[1;31m[WARN][0m       * Container running without CPU restrictions: tender_buck
+[1;31m[WARN][0m       * Container running without CPU restrictions: elated_snyder
+[1;31m[WARN][0m 5.12  - Ensure that the container's root filesystem is mounted as read only (Scored)
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: tender_buck
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: elated_snyder
+[1;32m[PASS][0m 5.13  - Ensure that incoming container traffic is bound to a specific host interface (Scored)
+[1;31m[WARN][0m 5.14  - Ensure that the 'on-failure' container restart policy is set to '5' (Scored)
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: tender_buck
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: elated_snyder
+[1;32m[PASS][0m 5.15  - Ensure that the host's process namespace is not shared (Scored)
+[1;32m[PASS][0m 5.16  - Ensure that the host's IPC namespace is not shared (Scored)
+[1;32m[PASS][0m 5.17  - Ensure that host devices are not directly exposed to containers (Not Scored)
+[1;34m[INFO][0m 5.18  - Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)
+[1;34m[INFO][0m       * Container no default ulimit override: tender_buck
+[1;34m[INFO][0m       * Container no default ulimit override: elated_snyder
+[1;32m[PASS][0m 5.19  - Ensure mount propagation mode is not set to shared (Scored)
+[1;32m[PASS][0m 5.20  - Ensure that the host's UTS namespace is not shared (Scored)
+[1;32m[PASS][0m 5.21  - Ensurethe default seccomp profile is not Disabled (Scored)
+[1;33m[NOTE][0m 5.22  - Ensure that docker exec commands are not used with the privileged option (Scored)
+[1;33m[NOTE][0m 5.23  - Ensure that docker exec commands are not used with the user=root option (Not Scored)
+[1;32m[PASS][0m 5.24  - Ensure that cgroup usage is confirmed (Scored)
+[1;31m[WARN][0m 5.25  - Ensure that the container is restricted from acquiring additional privileges (Scored)
+[1;31m[WARN][0m       * Privileges not restricted: tender_buck
+[1;31m[WARN][0m       * Privileges not restricted: elated_snyder
+[1;31m[WARN][0m 5.26  - Ensure that container health is checked at runtime (Scored)
+[1;31m[WARN][0m       * Health check not set: tender_buck
+[1;31m[WARN][0m       * Health check not set: elated_snyder
+[1;34m[INFO][0m 5.27  - Ensure that Docker commands always make use of the latest version of their image (Not Scored)
+[1;31m[WARN][0m 5.28  - Ensure that the PIDs cgroup limit is used (Scored)
+[1;31m[WARN][0m       * PIDs limit not set: tender_buck
+[1;31m[WARN][0m       * PIDs limit not set: elated_snyder
+[1;34m[INFO][0m 5.29  - Ensure that Docker's default bridge docker0 is not used (Not Scored)
+[1;34m[INFO][0m       * Container in docker0 network: tender_buck
+[1;34m[INFO][0m       * Container in docker0 network: elated_snyder
+[1;32m[PASS][0m 5.30  - Ensure that the host's user namespaces are not shared (Scored)
+[1;32m[PASS][0m 5.31  - Ensure that the Docker socket is not mounted inside any containers (Scored)
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m 5.2 - Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options. Remediation Impact: Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers.
+[1;34m[INFO][0m 5.8 - You should ensure that the Dockerfile for each container image only exposes needed ports. Remediation Impact: None.
+[1;34m[INFO][0m 5.10 - You should run the container with only as much memory as it requires by using the --memory argument. Remediation Impact: If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources.
+[1;34m[INFO][0m 5.11 - You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument. Remediation Impact: If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources.
+[1;34m[INFO][0m 5.12 - You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only. Remediation Impact: Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use.
+[1;34m[INFO][0m 5.14 - If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx Remediation Impact: If this option is set, a container will only attempt to restart itself 5 times.
+[1;34m[INFO][0m 5.18 - You should only override the default ulimit settings if needed in a specific case. Remediation Impact: If ulimits are not set correctly, overutilization by individual containers could make the host system unusable.
+[1;34m[INFO][0m 5.22 - You should not use the --privileged option in docker exec commands. Remediation Impact: If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually.
+[1;34m[INFO][0m 5.23 - You should not use the --user=root option in docker exec commands. Remediation Impact: None.
+[1;34m[INFO][0m 5.25 - You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash Remediation Impact: The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges.
+[1;34m[INFO][0m 5.26 - You should run the container using the --health-cmd parameter. Remediation Impact: None.
+[1;34m[INFO][0m 5.27 - You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements. Remediation Impact: None.
+[1;34m[INFO][0m 5.28 - Use --pids-limit flag with an appropriate value when launching the container. Remediation Impact: Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable.
+[1;34m[INFO][0m 5.29 - You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network. Remediation Impact: User-defined networks need to be configured and managed in line with organizational security policy.
+
+
+[1;33mSection C - Checks[0m
+
+[1;34m[INFO][0m Checks: 42
+Initializing 2021-09-10T17:12:27+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;31m[WARN][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;31m[WARN][0m      * Running as root: charming_merkle
+[1;31m[WARN][0m      * Running as root: musing_goldwasser
+[1;31m[WARN][0m      * Running as root: sleepy_williamson
+[1;31m[WARN][0m      * Running as root: tender_buck
+[1;31m[WARN][0m      * Running as root: elated_snyder
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;32m[PASS][0m 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled (Scored)
+[1;31m[WARN][0m 5.2  - Ensure that, if applicable, SELinux security options are set (Scored)
+[1;31m[WARN][0m      * No SecurityOptions Found: charming_merkle
+[1;31m[WARN][0m      * No SecurityOptions Found: musing_goldwasser
+[1;31m[WARN][0m      * No SecurityOptions Found: sleepy_williamson
+[1;31m[WARN][0m      * No SecurityOptions Found: tender_buck
+[1;31m[WARN][0m      * No SecurityOptions Found: elated_snyder
+[1;32m[PASS][0m 5.3  - Ensure that Linux kernel capabilities are restricted within containers (Scored)
+[1;32m[PASS][0m 5.4  - Ensure that privileged containers are not used (Scored)
+[1;32m[PASS][0m 5.5  - Ensure sensitive host system directories are not mounted on containers (Scored)
+[1;32m[PASS][0m 5.6  - Ensure sshd is not run within containers (Scored)
+[1;32m[PASS][0m 5.7  - Ensure privileged ports are not mapped within containers (Scored)
+[1;33m[NOTE][0m 5.8  - Ensure that only needed ports are open on the container (Not Scored)
+[1;32m[PASS][0m 5.9  - Ensure that the host's network namespace is not shared (Scored)
+[1;31m[WARN][0m 5.10  - Ensure that the memory usage for containers is limited (Scored)
+[1;31m[WARN][0m       * Container running without memory restrictions: charming_merkle
+[1;31m[WARN][0m       * Container running without memory restrictions: musing_goldwasser
+[1;31m[WARN][0m       * Container running without memory restrictions: sleepy_williamson
+[1;31m[WARN][0m       * Container running without memory restrictions: tender_buck
+[1;31m[WARN][0m       * Container running without memory restrictions: elated_snyder
+[1;31m[WARN][0m 5.11  - Ensure that CPU priority is set appropriately on containers (Scored)
+[1;31m[WARN][0m       * Container running without CPU restrictions: charming_merkle
+[1;31m[WARN][0m       * Container running without CPU restrictions: musing_goldwasser
+[1;31m[WARN][0m       * Container running without CPU restrictions: sleepy_williamson
+[1;31m[WARN][0m       * Container running without CPU restrictions: tender_buck
+[1;31m[WARN][0m       * Container running without CPU restrictions: elated_snyder
+[1;31m[WARN][0m 5.12  - Ensure that the container's root filesystem is mounted as read only (Scored)
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: charming_merkle
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: musing_goldwasser
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: sleepy_williamson
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: tender_buck
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: elated_snyder
+[1;32m[PASS][0m 5.13  - Ensure that incoming container traffic is bound to a specific host interface (Scored)
+[1;31m[WARN][0m 5.14  - Ensure that the 'on-failure' container restart policy is set to '5' (Scored)
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: charming_merkle
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: musing_goldwasser
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: sleepy_williamson
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: tender_buck
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: elated_snyder
+[1;32m[PASS][0m 5.15  - Ensure that the host's process namespace is not shared (Scored)
+[1;32m[PASS][0m 5.16  - Ensure that the host's IPC namespace is not shared (Scored)
+[1;32m[PASS][0m 5.17  - Ensure that host devices are not directly exposed to containers (Not Scored)
+[1;34m[INFO][0m 5.18  - Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)
+[1;34m[INFO][0m       * Container no default ulimit override: charming_merkle
+[1;34m[INFO][0m       * Container no default ulimit override: musing_goldwasser
+[1;34m[INFO][0m       * Container no default ulimit override: sleepy_williamson
+[1;34m[INFO][0m       * Container no default ulimit override: tender_buck
+[1;34m[INFO][0m       * Container no default ulimit override: elated_snyder
+[1;32m[PASS][0m 5.19  - Ensure mount propagation mode is not set to shared (Scored)
+[1;32m[PASS][0m 5.20  - Ensure that the host's UTS namespace is not shared (Scored)
+[1;32m[PASS][0m 5.21  - Ensurethe default seccomp profile is not Disabled (Scored)
+[1;33m[NOTE][0m 5.22  - Ensure that docker exec commands are not used with the privileged option (Scored)
+[1;33m[NOTE][0m 5.23  - Ensure that docker exec commands are not used with the user=root option (Not Scored)
+[1;32m[PASS][0m 5.24  - Ensure that cgroup usage is confirmed (Scored)
+[1;31m[WARN][0m 5.25  - Ensure that the container is restricted from acquiring additional privileges (Scored)
+[1;31m[WARN][0m       * Privileges not restricted: charming_merkle
+[1;31m[WARN][0m       * Privileges not restricted: musing_goldwasser
+[1;31m[WARN][0m       * Privileges not restricted: sleepy_williamson
+[1;31m[WARN][0m       * Privileges not restricted: tender_buck
+[1;31m[WARN][0m       * Privileges not restricted: elated_snyder
+[1;31m[WARN][0m 5.26  - Ensure that container health is checked at runtime (Scored)
+[1;31m[WARN][0m       * Health check not set: charming_merkle
+[1;31m[WARN][0m       * Health check not set: musing_goldwasser
+[1;31m[WARN][0m       * Health check not set: sleepy_williamson
+[1;31m[WARN][0m       * Health check not set: tender_buck
+[1;31m[WARN][0m       * Health check not set: elated_snyder
+[1;34m[INFO][0m 5.27  - Ensure that Docker commands always make use of the latest version of their image (Not Scored)
+[1;31m[WARN][0m 5.28  - Ensure that the PIDs cgroup limit is used (Scored)
+[1;31m[WARN][0m       * PIDs limit not set: charming_merkle
+[1;31m[WARN][0m       * PIDs limit not set: musing_goldwasser
+[1;31m[WARN][0m       * PIDs limit not set: sleepy_williamson
+[1;31m[WARN][0m       * PIDs limit not set: tender_buck
+[1;31m[WARN][0m       * PIDs limit not set: elated_snyder
+[1;34m[INFO][0m 5.29  - Ensure that Docker's default bridge docker0 is not used (Not Scored)
+[1;34m[INFO][0m       * Container in docker0 network: musing_goldwasser
+[1;34m[INFO][0m       * Container in docker0 network: tender_buck
+[1;34m[INFO][0m       * Container in docker0 network: charming_merkle
+[1;34m[INFO][0m       * Container in docker0 network: sleepy_williamson
+[1;34m[INFO][0m       * Container in docker0 network: elated_snyder
+[1;32m[PASS][0m 5.30  - Ensure that the host's user namespaces are not shared (Scored)
+[1;32m[PASS][0m 5.31  - Ensure that the Docker socket is not mounted inside any containers (Scored)
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m 5.2 - Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options. Remediation Impact: Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers.
+[1;34m[INFO][0m 5.8 - You should ensure that the Dockerfile for each container image only exposes needed ports. Remediation Impact: None.
+[1;34m[INFO][0m 5.10 - You should run the container with only as much memory as it requires by using the --memory argument. Remediation Impact: If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources.
+[1;34m[INFO][0m 5.11 - You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument. Remediation Impact: If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources.
+[1;34m[INFO][0m 5.12 - You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only. Remediation Impact: Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use.
+[1;34m[INFO][0m 5.14 - If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx Remediation Impact: If this option is set, a container will only attempt to restart itself 5 times.
+[1;34m[INFO][0m 5.18 - You should only override the default ulimit settings if needed in a specific case. Remediation Impact: If ulimits are not set correctly, overutilization by individual containers could make the host system unusable.
+[1;34m[INFO][0m 5.22 - You should not use the --privileged option in docker exec commands. Remediation Impact: If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually.
+[1;34m[INFO][0m 5.23 - You should not use the --user=root option in docker exec commands. Remediation Impact: None.
+[1;34m[INFO][0m 5.25 - You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash Remediation Impact: The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges.
+[1;34m[INFO][0m 5.26 - You should run the container using the --health-cmd parameter. Remediation Impact: None.
+[1;34m[INFO][0m 5.27 - You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements. Remediation Impact: None.
+[1;34m[INFO][0m 5.28 - Use --pids-limit flag with an appropriate value when launching the container. Remediation Impact: Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable.
+[1;34m[INFO][0m 5.29 - You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network. Remediation Impact: User-defined networks need to be configured and managed in line with organizational security policy.
+
+
+[1;33mSection C - Checks[0m
+
+[1;34m[INFO][0m Checks: 42
+Initializing 2021-09-14T16:39:07+02:00
+
+
+[1;33mSection A - Check results
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;31m[WARN][0m 4.1  - Ensure that a user for the container has been created (Scored)
+[1;31m[WARN][0m      * Running as root: affectionate_wilbur
+[1;31m[WARN][0m      * Running as root: silly_keller
+[1;31m[WARN][0m      * Running as root: affectionate_robinson
+[1;33m[NOTE][0m 4.2  - Ensure that containers use only trusted base images (Not Scored)
+[1;33m[NOTE][0m 4.3  - Ensure that unnecessary packages are not installed in the container (Not Scored)
+[1;33m[NOTE][0m 4.4  - Ensure images are scanned and rebuilt to include security patches (Not Scored)
+[1;31m[WARN][0m 4.5  - Ensure Content trust for Docker is Enabled (Scored)
+[1;31m[WARN][0m 4.6  - Ensure that HEALTHCHECK instructions have been added to container images (Scored)
+[1;31m[WARN][0m      * No Healthcheck found: [wordpress:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [redis:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [nginx:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [mysql:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [debian:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [alpine:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [ubuntu:latest]
+[1;31m[WARN][0m      * No Healthcheck found: [hello-world:latest]
+[1;34m[INFO][0m 4.7  - Ensure update instructions are not used alone in the Dockerfile (Not Scored)
+[1;34m[INFO][0m      * Update instruction found: [wordpress:latest]
+[1;34m[INFO][0m      * Update instruction found: [mysql:latest]
+[1;33m[NOTE][0m 4.8  - Ensure setuid and setgid permissions are removed (Not Scored)
+[1;32m[PASS][0m 4.9  - Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.10  - Ensure secrets are not stored in Dockerfiles (Not Scored)
+[1;33m[NOTE][0m 4.11  - Ensure only verified packages are are installed (Not Scored)
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;32m[PASS][0m 5.1  - Ensure that, if applicable, an AppArmor Profile is enabled (Scored)
+[1;31m[WARN][0m 5.2  - Ensure that, if applicable, SELinux security options are set (Scored)
+[1;31m[WARN][0m      * No SecurityOptions Found: affectionate_wilbur
+[1;31m[WARN][0m      * No SecurityOptions Found: silly_keller
+[1;31m[WARN][0m      * No SecurityOptions Found: affectionate_robinson
+[1;32m[PASS][0m 5.3  - Ensure that Linux kernel capabilities are restricted within containers (Scored)
+[1;32m[PASS][0m 5.4  - Ensure that privileged containers are not used (Scored)
+[1;32m[PASS][0m 5.5  - Ensure sensitive host system directories are not mounted on containers (Scored)
+[1;32m[PASS][0m 5.6  - Ensure sshd is not run within containers (Scored)
+[1;32m[PASS][0m 5.7  - Ensure privileged ports are not mapped within containers (Scored)
+[1;33m[NOTE][0m 5.8  - Ensure that only needed ports are open on the container (Not Scored)
+[1;32m[PASS][0m 5.9  - Ensure that the host's network namespace is not shared (Scored)
+[1;31m[WARN][0m 5.10  - Ensure that the memory usage for containers is limited (Scored)
+[1;31m[WARN][0m       * Container running without memory restrictions: affectionate_wilbur
+[1;31m[WARN][0m       * Container running without memory restrictions: silly_keller
+[1;31m[WARN][0m       * Container running without memory restrictions: affectionate_robinson
+[1;31m[WARN][0m 5.11  - Ensure that CPU priority is set appropriately on containers (Scored)
+[1;31m[WARN][0m       * Container running without CPU restrictions: affectionate_wilbur
+[1;31m[WARN][0m       * Container running without CPU restrictions: silly_keller
+[1;31m[WARN][0m       * Container running without CPU restrictions: affectionate_robinson
+[1;31m[WARN][0m 5.12  - Ensure that the container's root filesystem is mounted as read only (Scored)
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: affectionate_wilbur
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: silly_keller
+[1;31m[WARN][0m       * Container running with root FS mounted R/W: affectionate_robinson
+[1;32m[PASS][0m 5.13  - Ensure that incoming container traffic is bound to a specific host interface (Scored)
+[1;31m[WARN][0m 5.14  - Ensure that the 'on-failure' container restart policy is set to '5' (Scored)
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: affectionate_wilbur
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: silly_keller
+[1;31m[WARN][0m       * MaximumRetryCount is not set to 5: affectionate_robinson
+[1;32m[PASS][0m 5.15  - Ensure that the host's process namespace is not shared (Scored)
+[1;32m[PASS][0m 5.16  - Ensure that the host's IPC namespace is not shared (Scored)
+[1;32m[PASS][0m 5.17  - Ensure that host devices are not directly exposed to containers (Not Scored)
+[1;34m[INFO][0m 5.18  - Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)
+[1;34m[INFO][0m       * Container no default ulimit override: affectionate_wilbur
+[1;34m[INFO][0m       * Container no default ulimit override: silly_keller
+[1;34m[INFO][0m       * Container no default ulimit override: affectionate_robinson
+[1;32m[PASS][0m 5.19  - Ensure mount propagation mode is not set to shared (Scored)
+[1;32m[PASS][0m 5.20  - Ensure that the host's UTS namespace is not shared (Scored)
+[1;32m[PASS][0m 5.21  - Ensurethe default seccomp profile is not Disabled (Scored)
+[1;33m[NOTE][0m 5.22  - Ensure that docker exec commands are not used with the privileged option (Scored)
+[1;33m[NOTE][0m 5.23  - Ensure that docker exec commands are not used with the user=root option (Not Scored)
+[1;32m[PASS][0m 5.24  - Ensure that cgroup usage is confirmed (Scored)
+[1;31m[WARN][0m 5.25  - Ensure that the container is restricted from acquiring additional privileges (Scored)
+[1;31m[WARN][0m       * Privileges not restricted: affectionate_wilbur
+[1;31m[WARN][0m       * Privileges not restricted: silly_keller
+[1;31m[WARN][0m       * Privileges not restricted: affectionate_robinson
+[1;31m[WARN][0m 5.26  - Ensure that container health is checked at runtime (Scored)
+[1;31m[WARN][0m       * Health check not set: affectionate_wilbur
+[1;31m[WARN][0m       * Health check not set: silly_keller
+[1;31m[WARN][0m       * Health check not set: affectionate_robinson
+[1;34m[INFO][0m 5.27  - Ensure that Docker commands always make use of the latest version of their image (Not Scored)
+[1;31m[WARN][0m 5.28  - Ensure that the PIDs cgroup limit is used (Scored)
+[1;31m[WARN][0m       * PIDs limit not set: affectionate_wilbur
+[1;31m[WARN][0m       * PIDs limit not set: silly_keller
+[1;31m[WARN][0m       * PIDs limit not set: affectionate_robinson
+[1;34m[INFO][0m 5.29  - Ensure that Docker's default bridge docker0 is not used (Not Scored)
+[1;34m[INFO][0m       * Container in docker0 network: silly_keller
+[1;34m[INFO][0m       * Container in docker0 network: affectionate_robinson
+[1;34m[INFO][0m       * Container in docker0 network: affectionate_wilbur
+[1;32m[PASS][0m 5.30  - Ensure that the host's user namespaces are not shared (Scored)
+[1;32m[PASS][0m 5.31  - Ensure that the Docker socket is not mounted inside any containers (Scored)
+
+
+[1;33mSection B - Remediation measures[0m
+
+[1;34m[INFO][0m 4 - Container Images and Build File
+[1;34m[INFO][0m 4.1 - You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile. Remediation Impact: Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements.
+[1;34m[INFO][0m 4.2 - Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Remediation Impact: None.
+[1;34m[INFO][0m 4.3 - You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. Remediation Impact: None.
+[1;34m[INFO][0m 4.4 - Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images. Remediation Impact: None.
+[1;34m[INFO][0m 4.5 - Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment. Remediation Impact: This prevents users from working with tagged images unless they contain a signature.
+[1;34m[INFO][0m 4.6 - You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction. Remediation Impact: None.
+[1;34m[INFO][0m 4.7 - You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers. Remediation Impact: None.
+[1;34m[INFO][0m 4.8 - You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true Remediation Impact: The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages.
+[1;34m[INFO][0m 4.10 - Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker. Remediation Impact: A proper secrets management process will be required for Docker image building.
+[1;34m[INFO][0m 4.11 - You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages. Remediation Impact: None.
+
+[1;34m[INFO][0m 5 - Container Runtime
+[1;34m[INFO][0m 5.2 - Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options. Remediation Impact: Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers.
+[1;34m[INFO][0m 5.8 - You should ensure that the Dockerfile for each container image only exposes needed ports. Remediation Impact: None.
+[1;34m[INFO][0m 5.10 - You should run the container with only as much memory as it requires by using the --memory argument. Remediation Impact: If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources.
+[1;34m[INFO][0m 5.11 - You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument. Remediation Impact: If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources.
+[1;34m[INFO][0m 5.12 - You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only. Remediation Impact: Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use.
+[1;34m[INFO][0m 5.14 - If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx Remediation Impact: If this option is set, a container will only attempt to restart itself 5 times.
+[1;34m[INFO][0m 5.18 - You should only override the default ulimit settings if needed in a specific case. Remediation Impact: If ulimits are not set correctly, overutilization by individual containers could make the host system unusable.
+[1;34m[INFO][0m 5.22 - You should not use the --privileged option in docker exec commands. Remediation Impact: If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually.
+[1;34m[INFO][0m 5.23 - You should not use the --user=root option in docker exec commands. Remediation Impact: None.
+[1;34m[INFO][0m 5.25 - You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash Remediation Impact: The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges.
+[1;34m[INFO][0m 5.26 - You should run the container using the --health-cmd parameter. Remediation Impact: None.
+[1;34m[INFO][0m 5.27 - You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements. Remediation Impact: None.
+[1;34m[INFO][0m 5.28 - Use --pids-limit flag with an appropriate value when launching the container. Remediation Impact: Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable.
+[1;34m[INFO][0m 5.29 - You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network. Remediation Impact: User-defined networks need to be configured and managed in line with organizational security policy.
+
+
+[1;33mSection C - Checks[0m
+
+[1;34m[INFO][0m Checks: 42
