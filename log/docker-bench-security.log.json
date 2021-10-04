@@ -1,6 +1,6 @@
 {
   "dockerbenchsecurity": "1.3.6",
-  "start": 1631630347,
+  "start": 1633375824,
   "tests": [
     {
       "id": "4",
@@ -8,87 +8,78 @@
       "results": [
         {
           "id": "4.1",
-          "desc": "Ensure that a user for the container has been created (Scored)",
-          "result": "WARN",
-          "details": "running as root:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
+          "desc": "Ensure that a user for the container has been created",
+          "result": "INFO",
+          "details": "No containers running",
           "remediation": "You should ensure that the Dockerfile for each container image contains the information: USER <username or ID>. If there is no specific user created in the container base image, then make use of the useradd command to add a specific user before the USER instruction in the Dockerfile.",
           "remediation-impact": "Running as a non-root user can present challenges where you wish to bind mount volumes from the underlying host. In this case, care should be taken to ensure that the user running the contained process can read and write to the bound directory, according to their requirements."
         },
         {
           "id": "4.2",
-          "desc": "Ensure that containers use only trusted base images (Not Scored)",
+          "desc": "Ensure that containers use only trusted base images",
           "result": "NOTE",
-          "remediation": "Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals.",
+          "remediation": "Configure and use Docker Content trust. View the history of each Docker image to evaluate its risk, dependent on the sensitivity of the application you wish to deploy using it. Scan Docker images for vulnerabilities at regular intervals. Use the commands docker history <imageName> and docker image scan <imageName>",
           "remediation-impact": "None."
         },
         {
           "id": "4.3",
-          "desc": "Ensure that unnecessary packages are not installed in the container (Not Scored)",
+          "desc": "Ensure that unnecessary packages are not installed in the container",
           "result": "NOTE",
-          "remediation": "You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack.",
+          "remediation": "You should not install anything within the container that is not required. You should consider using a minimal base image if you can. Some of the options available include BusyBox and Alpine. Not only can this trim your image size considerably, but there would also be fewer pieces of software which could contain vectors for attack. To review the list of the packages installed depending on which distro your image is based the commands are docker exec -i <container_id>  dpkg -l for ubuntu based, docker exec -i <container_id>  rpm -qa for RHEL, CentOS and Fedora - based containers, docker exec -i <container_id>  apk info -vv | sort for Alpine-based containers.",
           "remediation-impact": "None."
         },
         {
           "id": "4.4",
-          "desc": "Ensure images are scanned and rebuilt to include security patches (Not Scored)",
+          "desc": "Ensure images are scanned and rebuilt to include security patches",
           "result": "NOTE",
           "remediation": "Images should be re-built ensuring that the latest version of the base images are used, to keep the operating system patch level at an appropriate level. Once the images have been re-built, containers should be re-started making use of the updated images.",
           "remediation-impact": "None."
         },
         {
           "id": "4.5",
-          "desc": "Ensure Content trust for Docker is Enabled (Scored)",
+          "desc": "Ensure Content trust for Docker is Enabled",
           "result": "WARN",
           "remediation": "Add DOCKER_CONTENT_TRUST variable to the /etc/environment file using command echo DOCKER_CONTENT_TRUST=1 | sudo tee -a /etc/environment.",
           "remediation-impact": "This prevents users from working with tagged images unless they contain a signature."
         },
         {
           "id": "4.6",
-          "desc": "Ensure that HEALTHCHECK instructions have been added to container images (Scored)",
+          "desc": "Ensure that HEALTHCHECK instructions have been added to container images",
           "result": "WARN",
-          "details": "Images w/o HEALTHCHECK:  [wordpress:latest] [redis:latest] [nginx:latest] [mysql:latest] [debian:latest] [alpine:latest] [ubuntu:latest] [hello-world:latest]",
+          "details": "Images w/o HEALTHCHECK:  [alpine:3.13]",
           "items": [
-            "[wordpress:latest]","[redis:latest]","[nginx:latest]","[mysql:latest]","[debian:latest]","[alpine:latest]","[ubuntu:latest]","[hello-world:latest]"
+            "[alpine:3.13]"
           ],
-          "remediation": "You should follow the Docker documentation and rebuild your container images to include the HEALTHCHECK instruction.",
+          "remediation": "An important security control is that of availability. Adding the HEALTHCHECK instruction to your container image ensures that the Docker engine periodically checks the running container instances against that instruction to ensure that containers are still operational. Based on the results of the health check, the Docker engine could terminate containers which are not responding correctly, and instantiate new ones.",
           "remediation-impact": "None."
         },
         {
           "id": "4.7",
-          "desc": "Ensure update instructions are not used alone in the Dockerfile (Not Scored)",
-          "result": "INFO",
-          "details": "Update instructions found:  [wordpress:latest] [mysql:latest]",
-          "items": [
-            "[wordpress:latest]","[mysql:latest]"
-          ],
-          "remediation": "You should use update instructions together with install instructions and version pinning for packages while installing them. This prevent caching and force the extraction of the required versions. Alternatively, you could use the --no-cache flag during the docker build process to avoid using cached layers.",
-          "remediation-impact": "None."
+          "desc": "Ensure update instructions are not used alone in the Dockerfile",
+          "result": "PASS"
         },
         {
           "id": "4.8",
-          "desc": "Ensure setuid and setgid permissions are removed (Not Scored)",
+          "desc": "Ensure setuid and setgid permissions are removed",
           "result": "NOTE",
-          "remediation": "You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile: RUN find / -perm /6000 -type f -exec chmod a-s {} ; || true",
+          "remediation": "You should allow setuid and setgid permissions only on executables which require them. You could remove these permissions at build time by adding the following command in your Dockerfile, preferably towards the end of the Dockerfile. ",
           "remediation-impact": "The above command would break all executables that depend on setuid or setgid permissions including legitimate ones. You should therefore be careful to modify the command to suit your requirements so that it does not reduce the permissions of legitimate programs excessively. Because of this, you should exercise a degree of caution and examine all processes carefully before making this type of modification in order to avoid outages."
         },
         {
           "id": "4.9",
-          "desc": "Ensure that COPY is used instead of ADD in Dockerfiles (Not Scored)",
+          "desc": "Ensure that COPY is used instead of ADD in Dockerfiles",
           "result": "PASS"
         },
         {
           "id": "4.10",
-          "desc": "Ensure secrets are not stored in Dockerfiles (Not Scored)",
+          "desc": "Ensure secrets are not stored in Dockerfiles",
           "result": "NOTE",
           "remediation": "Do not store any kind of secrets within Dockerfiles. Where secrets are required during the build process, make use of a secrets management tool, such as the buildkit builder included with Docker.",
           "remediation-impact": "A proper secrets management process will be required for Docker image building."
         },
         {
           "id": "4.11",
-          "desc": "Ensure only verified packages are are installed (Not Scored)",
+          "desc": "Ensure only verified packages are are installed",
           "result": "NOTE",
           "remediation": "You should use a secure package distribution mechanism of your choice to ensure the authenticity of software packages.",
           "remediation-impact": "None."
@@ -99,233 +90,10 @@
       "id": "5",
       "desc": "Container Runtime",
       "results": [
-        {
-          "id": "5.1",
-          "desc": "Ensure that, if applicable, an AppArmor Profile is enabled (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.2",
-          "desc": "Ensure that, if applicable, SELinux security options are set (Scored)",
-          "result": "WARN",
-          "details": "Containers with no SecurityOptions:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "Set the SELinux State. Set the SELinux Policy. Create or import a SELinux policy template for Docker containers. Start Docker in daemon mode with SELinux enabled. Start your Docker container using the security options.",
-          "remediation-impact": "Any restrictions defined in the SELinux policy will be applied to your containers. It should be noted that if your SELinux policy is misconfigured, this may have an impact on the correct operation of the affected containers."
-        },
-        {
-          "id": "5.3",
-          "desc": "Ensure that Linux kernel capabilities are restricted within containers (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.4",
-          "desc": "Ensure that privileged containers are not used (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.5",
-          "desc": "Ensure sensitive host system directories are not mounted on containers (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.6",
-          "desc": "Ensure sshd is not run within containers (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.7",
-          "desc": "Ensure privileged ports are not mapped within containers (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.8",
-          "desc": "Ensure that only needed ports are open on the container (Not Scored)",
-          "result": "NOTE",
-          "remediation": "You should ensure that the Dockerfile for each container image only exposes needed ports.",
-          "remediation-impact": "None."
-        },
-        {
-          "id": "5.9",
-          "desc": "Ensure that the host's network namespace is not shared (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.10",
-          "desc": "Ensure that the memory usage for containers is limited (Scored)",
-          "result": "WARN",
-          "details": "Container running without memory restrictions:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "You should run the container with only as much memory as it requires by using the --memory argument.",
-          "remediation-impact": "If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources."
-        },
-        {
-          "id": "5.11",
-          "desc": "Ensure that CPU priority is set appropriately on containers (Scored)",
-          "result": "WARN",
-          "details": "Containers running without CPU restrictions:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument.",
-          "remediation-impact": "If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources."
-        },
-        {
-          "id": "5.12",
-          "desc": "Ensure that the container's root filesystem is mounted as read only (Scored)",
-          "result": "WARN",
-          "details": "Containers running with root FS mounted R/W:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only.",
-          "remediation-impact": "Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use."
-        },
-        {
-          "id": "5.13",
-          "desc": "Ensure that incoming container traffic is bound to a specific host interface (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.14",
-          "desc": "Ensure that the 'on-failure' container restart policy is set to '5' (Scored)",
-          "result": "WARN",
-          "details": "Containers with MaximumRetryCount not set to 5:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx",
-          "remediation-impact": "If this option is set, a container will only attempt to restart itself 5 times."
-        },
-        {
-          "id": "5.15",
-          "desc": "Ensure that the host's process namespace is not shared (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.16",
-          "desc": "Ensure that the host's IPC namespace is not shared (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.17",
-          "desc": "Ensure that host devices are not directly exposed to containers (Not Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.18",
-          "desc": "Ensure that the default ulimit is overwritten at runtime if needed (Not Scored)",
-          "result": "INFO",
-          "details": "Containers with no default ulimit override:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "You should only override the default ulimit settings if needed in a specific case.",
-          "remediation-impact": "If ulimits are not set correctly, overutilization by individual containers could make the host system unusable."
-        },
-        {
-          "id": "5.19",
-          "desc": "Ensure mount propagation mode is not set to shared (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.20",
-          "desc": "Ensure that the host's UTS namespace is not shared (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.21",
-          "desc": "Ensurethe default seccomp profile is not Disabled (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.22",
-          "desc": "Ensure that docker exec commands are not used with the privileged option (Scored)",
-          "result": "NOTE",
-          "remediation": "You should not use the --privileged option in docker exec commands.",
-          "remediation-impact": "If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually."
-        },
-        {
-          "id": "5.23",
-          "desc": "Ensure that docker exec commands are not used with the user=root option (Not Scored)",
-          "result": "NOTE",
-          "remediation": "You should not use the --user=root option in docker exec commands.",
-          "remediation-impact": "None."
-        },
-        {
-          "id": "5.24",
-          "desc": "Ensure that cgroup usage is confirmed (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.25",
-          "desc": "Ensure that the container is restricted from acquiring additional privileges (Scored)",
-          "result": "WARN",
-          "details": "Containers without restricted privileges:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash",
-          "remediation-impact": "The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges."
-        },
-        {
-          "id": "5.26",
-          "desc": "Ensure that container health is checked at runtime (Scored)",
-          "result": "WARN",
-          "details": "Containers without health check:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "You should run the container using the --health-cmd parameter.",
-          "remediation-impact": "None."
-        },
-        {
-          "id": "5.27",
-          "desc": "Ensure that Docker commands always make use of the latest version of their image (Not Scored)",
-          "result": "INFO",
-          "remediation": "You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements.",
-          "remediation-impact": "None."
-        },
-        {
-          "id": "5.28",
-          "desc": "Ensure that the PIDs cgroup limit is used (Scored)",
-          "result": "WARN",
-          "details": "Containers without PIDs cgroup limit:  affectionate_wilbur silly_keller affectionate_robinson",
-          "items": [
-            "affectionate_wilbur","silly_keller","affectionate_robinson"
-          ],
-          "remediation": "Use --pids-limit flag with an appropriate value when launching the container.",
-          "remediation-impact": "Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable."
-        },
-        {
-          "id": "5.29",
-          "desc": "Ensure that Docker's default bridge docker0 is not used (Not Scored)",
-          "result": "INFO",
-          "details": "Containers using docker0 network:  84de42ef4191219bd3f6f2da8c6b9f070d31965b0c1e3da10172e17d57950f07:silly_keller 8906b008b1431ec9d96d61588d62b16ceca17acbc745857c9bbf1901557c898c:affectionate_robinson b8f374f00d3944bbadc4684c8fd34cc865b519ec266903424e38b126eafcfdc3:affectionate_wilbur",
-          "items": [
-            "84de42ef4191219bd3f6f2da8c6b9f070d31965b0c1e3da10172e17d57950f07:silly_keller","8906b008b1431ec9d96d61588d62b16ceca17acbc745857c9bbf1901557c898c:affectionate_robinson","b8f374f00d3944bbadc4684c8fd34cc865b519ec266903424e38b126eafcfdc3:affectionate_wilbur"
-          ],
-          "remediation": "You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network.",
-          "remediation-impact": "User-defined networks need to be configured and managed in line with organizational security policy."
-        },
-        {
-          "id": "5.30",
-          "desc": "Ensure that the host's user namespaces are not shared (Scored)",
-          "result": "PASS"
-        },
-        {
-          "id": "5.31",
-          "desc": "Ensure that the Docker socket is not mounted inside any containers (Scored)",
-          "result": "PASS"
-        }
       ]
     }
   ],
-  "checks": 42,
-  "score": 5,
-  "end": 1631630358
+  "checks": 11,
+  "score": -2,
+  "end": 1633375825
 }

@@ -13,6 +13,11 @@ version='1.3.6'
 . ./functions/functions_lib.sh
 . ./functions/helper_lib.sh
 
+# Setup Solutions
+rm -r solutions
+mkdir solutions
+cp -R yourimghere/* solutions
+
 # Setup the paths
 this_path=$(abspath "$0")       ## Path of this file including filename
 myname=$(basename "${this_path%.*}")     ## file name of this script.
@@ -198,10 +203,10 @@ main () {
     fi
   done
 
-  if [ -n "${globalRemediation}" ] && [ "$printremediation" = "1" ]; then
-    logit "\n\n${bldylw}Section B - Remediation measures${txtrst}"
-    logit "${globalRemediation}"
-  fi
+  #if [ -n "${globalRemediation}" ] && [ "$printremediation" = "1" ]; then
+    #logit "\n\n${bldylw}Section B - Remediation measures${txtrst}"
+    #logit "${globalRemediation}"
+  #fi
 
   logit "\n\n${bldylw}Section C - Checks${txtrst}\n"
   info "Checks: $totalChecks"
