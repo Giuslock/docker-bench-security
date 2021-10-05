@@ -406,7 +406,7 @@ check_5_10() {
   local id="5.10"
   local desc="Ensure that the memory usage for containers is limited"
   local remediation="By default a container can use all of the memory on the host. You can use memory limit mechanisms to prevent a denial of service occurring where one container consumes all of
-the host’s resources and other containers on the same host are therefore not able to function. Having no limit on memory usage can lead to issues where one container can easily make the whole system unstable and as a result unusable.You should run the container with only as much memory as it requires by using the --memory argument."
+the hosts resources and other containers on the same host are therefore not able to function. Having no limit on memory usage can lead to issues where one container can easily make the whole system unstable and as a result unusable.You should run the container with only as much memory as it requires by using the --memory argument."
   local remediationImpact="If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -449,9 +449,7 @@ check_5_11() {
 
   local id="5.11"
   local desc="Ensure that CPU priority is set appropriately on containers"
-  local remediation="By default, CPU time is divided between containers equally. If you wish to control available CPU resources amongst container instances, you can use the CPU sharing feature. CPU sharing allows you to prioritize one container over others and prevents lower priority
-containers from absorbing CPU resources which may be required by other processes. This
-ensures that high priority containers are able to claim the CPU runtime they require.You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument."
+  local remediation="By default, CPU time is divided between containers equally. If you wish to control available CPU resources amongst container instances, you can use the CPU sharing feature. CPU sharing allows you to prioritize one container over others and prevents lower priority containers from absorbing CPU resources which may be required by other processes. This ensures that high priority containers are able to claim the CPU runtime they require. You should manage the CPU runtime between your containers dependent on their priority within your organization. To do so start the container using the --cpu-shares argument."
   local remediationImpact="If you do not correctly assign CPU thresholds, the container process may run out of resources and become unresponsive. If CPU resources on the host are not constrainted, CPU shares do not place any restrictions on individual resources."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -494,12 +492,7 @@ check_5_12() {
 
   local id="5.12"
   local desc="Ensure that the container's root filesystem is mounted as read only"
-  local remediation="The container's root filesystem should be treated as a 'golden image' by using Docker run's --read-only option. This prevents any writes to the container's root filesystem at
-container runtime and enforces the principle of immutable infrastructure.Enabling this option forces containers at runtime to explicitly define their data writing
-strategy to persist or not persist their data.
-This also reduces security attack vectors since the container instance's filesystem cannot
-be tampered with or written to unless it has explicit read-write permissions on its
-filesystem folder and directories. You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only."
+  local remediation="The container's root filesystem should be treated as a 'golden image' by using Docker run's --read-only option. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure.Enabling this option forces containers at runtime to explicitly define their data writing strategy to persist or not persist their data. This also reduces security attack vectors since the container instance's filesystem cannot be tampered with or written to unless it has explicit read-write permissions on its filesystem folder and directories. You should add a --read-only flag at a container's runtime to enforce the container's root filesystem being mounted as read only."
   local remediationImpact="Enabling --read-only at container runtime may break some container OS packages if a data writing strategy is not defined. You should define what the container's data should and should not persist at runtime in order to decide which strategy to use."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -539,13 +532,7 @@ check_5_13() {
 
   local id="5.13"
   local desc="Ensure that incoming container traffic is bound to a specific host interface"
-  local remediation="If you have multiple network interfaces on your host machine, the container can accept
-connections on exposed ports on any network interface. This might not be desirable and
-may not be secured. In many cases a specific, desired interface is exposed externally and
-services such as intrusion detection, intrusion prevention, firewall, load balancing, etc. are
-all run by intention there to screen incoming public traffic. You should therefore not accept
-incoming connections on any random interface, but only the one designated for this type of
-traffic.You should bind the container port to a specific host interface on the desired host port. Example: docker run --detach --publish 10.2.3.4:49153:80 nginx In this example, the container port 80 is bound to the host port on 49153 and would accept incoming connection only from the 10.2.3.4 external interface."
+  local remediation="If you have multiple network interfaces on your host machine, the container can accept connections on exposed ports on any network interface. This might not be desirable and may not be secured. In many cases a specific, desired interface is exposed externally and services such as intrusion detection, intrusion prevention, firewall, load balancing, etc. are all run by intention there to screen incoming public traffic. You should therefore not accept incoming connections on any random interface, but only the one designated for this type of traffic.You should bind the container port to a specific host interface on the desired host port. Example: docker run --detach --publish 10.2.3.4:49153:80 nginx In this example, the container port 80 is bound to the host port on 49153 and would accept incoming connection only from the 10.2.3.4 external interface."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -585,15 +572,7 @@ check_5_14() {
 
   local id="5.14"
   local desc="Ensure that the 'on-failure' container restart policy is set to '5'"
-  local remediation="By using the --restart flag in the docker run command you can specify a restart policy for
-how a container should or should not be restarted on exit.If you indefinitely keep trying to start the container, it could possibly lead to a denial of
-service on the host. It could be an easy way to do a distributed denial of service attack
-especially if you have many containers on the same host. Additionally, ignoring the exit
-status of the container and always attempting to restart the container, leads to non-
-investigation of the root cause behind containers getting terminated. If a container gets
-terminated, you should investigate on the reason behind it instead of just attempting to
-restart it indefinitely. You should use the on-failure restart policy to limit the number of
-container restarts to a maximum of 5 attempts.If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx"
+  local remediation="By using the --restart flag in the docker run command you can specify a restart policy for how a container should or should not be restarted on exit.If you indefinitely keep trying to start the container, it could possibly lead to a denial of service on the host. It could be an easy way to do a distributed denial of service attack especially if you have many containers on the same host. Additionally, ignoring the exit status of the container and always attempting to restart the container, leads to non- investigation of the root cause behind containers getting terminated. If a container gets terminated, you should investigate on the reason behind it instead of just attempting to restart it indefinitely. You should use the on-failure restart policy to limit the number of container restarts to a maximum of 5 attempts.If you wish a container to be automatically restarted, a sample command is docker run --detach --restart=on-failure:5 nginx"
   local remediationImpact="If this option is set, a container will only attempt to restart itself 5 times."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -635,17 +614,7 @@ check_5_15() {
 
   local id="5.15"
   local desc="Ensure that the host's process namespace is not shared"
-  local remediation="The Process ID (PID) namespace isolates the process ID space, meaning that processes in
-different PID namespaces can have the same PID. This creates process level isolation
-between the containers and the host.t prevents system processes from
-being visible, and allows process ids to be reused including PID 1 . If the host's PID
-namespace is shared with containers, it would basically allow these to see all of the
-processes on the host system. This reduces the benefit of process level isolation between
-the host and the containers. Under these circumstances a malicious user who has access to
-a container could get access to processes on the host itself, manipulate them, and even be
-able to kill them. This could allow for the host itself being shut down, which could be
-extremely serious, particularly in a multi-tenanted environment. You should not share the
-host's process namespace with the containers running on it.You should not start a container with the --pid=host argument."
+  local remediation="The Process ID (PID) namespace isolates the process ID space, meaning that processes in different PID namespaces can have the same PID. This creates process level isolation between the containers and the host.t prevents system processes from being visible, and allows process ids to be reused including PID 1 . If the host's PID namespace is shared with containers, it would basically allow these to see all of the processes on the host system. This reduces the benefit of process level isolation between the host and the containers. Under these circumstances a malicious user who has access to a container could get access to processes on the host itself, manipulate them, and even be able to kill them. This could allow for the host itself being shut down, which could be extremely serious, particularly in a multi-tenanted environment. You should not share the host's process namespace with the containers running on it.You should not start a container with the --pid=host argument."
   local remediationImpact="Container processes cannot see processes on the host system."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -685,12 +654,7 @@ check_5_16() {
 
   local id="5.16"
   local desc="Ensure that the host's IPC namespace is not shared"
-  local remediation="The IPC namespace provides separation of IPC between the host and containers. If the
-host's IPC namespace is shared with the container, it would allow processes within the
-container to see all of IPC communications on the host system. This would remove the
-benefit of IPC level isolation between host and containers. An attacker with access to a
-container could get access to the host at this level with major consequences. The IPC
-namespace should therefore not be shared between the host and its containers.You should not start a container with the --ipc=host argument."
+  local remediation="The IPC namespace provides separation of IPC between the host and containers. If the host's IPC namespace is shared with the container, it would allow processes within the container to see all of IPC communications on the host system. This would remove the benefit of IPC level isolation between host and containers. An attacker with access to a container could get access to the host at this level with major consequences. The IPC namespace should therefore not be shared between the host and its containers.You should not start a container with the --ipc=host argument."
   local remediationImpact="Shared memory segments are used in order to accelerate interprocess communications, commonly in high-performance applications. If this type of application is containerized into multiple containers, you might need to share the IPC namespace of the containers in order to achieve high performance. Under these circumstances, you should still only share container specific IPC namespaces and not the host IPC namespace."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -730,12 +694,7 @@ check_5_17() {
 
   local id="5.17"
   local desc="Ensure that host devices are not directly exposed to containers"
-  local remediation="The --device option exposes host devices to containers and as a result of this, containers can directly access these devices. The the container would not need to run in privileged mode to access and manipulate them, as by default, the container is granted this type of
-access. Additionally, it would possible for containers to remove block devices from the host.
-You therefore should not expose host devices to containers directly.
-If for some reason you wish to expose the host device to a container you should consider
-which sharing permissions you wish to use on a case by case base as appropriate to your
-organization:(r - read only, w - writable, m - mknod allowed)"
+  local remediation="The --device option exposes host devices to containers and as a result of this, containers can directly access these devices. The the container would not need to run in privileged mode to access and manipulate them, as by default, the container is granted this type of access. Additionally, it would possible for containers to remove block devices from the host. You therefore should not expose host devices to containers directly. If for some reason you wish to expose the host device to a container you should consider which sharing permissions you wish to use on a case by case base as appropriate to your organization:(r - read only, w - writable, m - mknod allowed)"
   local remediationImpact="You would not be able to use host devices directly within containers."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -775,12 +734,7 @@ check_5_18() {
 
   local id="5.18"
   local desc="Ensure that the default ulimit is overwritten at runtime if needed"
-  local remediation="ulimit provides control over the resources available to the shell and to processes started by it. Setting system resource limits in a prudent fashion, protects against denial of service conditions. On occasion, legitimate users and processes can accidentally overuse system resources and cause systems be degraded or even unresponsive.
-The default ulimit set at the Docker daemon level should be honored. If the default ulimit
-settings are not appropriate for a particular container instance, you may override them as
-an exception, but this should not be done routinely. If many of your container instances are
-exceeding your ulimit settings, you should consider changing the default settings to
-something that is more appropriate for your needs.You should only override the default ulimit settings if needed in a specific case."
+  local remediation="ulimit provides control over the resources available to the shell and to processes started by it. Setting system resource limits in a prudent fashion, protects against denial of service conditions. On occasion, legitimate users and processes can accidentally overuse system resources and cause systems be degraded or even unresponsive. The default ulimit set at the Docker daemon level should be honored. If the default ulimit settings are not appropriate for a particular container instance, you may override them as an exception, but this should not be done routinely. If many of your container instances are exceeding your ulimit settings, you should consider changing the default settings to something that is more appropriate for your needs.You should only override the default ulimit settings if needed in a specific case."
   local remediationImpact="If ulimits are not set correctly, overutilization by individual containers could make the host system unusable."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -819,12 +773,7 @@ check_5_19() {
   fi
 
   local id="5.19"
-  local desc="A shared mount is replicated at all mounts and changes made at any mount point are
-propagated to all other mount points.
-Mounting a volume in shared mode does not restrict any other container from mounting
-and making changes to that volume.
-As this is likely not a desirable option from a security standpoint, this feature should not be
-used unless explicitly required.Ensure mount propagation mode is not set to shared"
+  local desc="A shared mount is replicated at all mounts and changes made at any mount point are propagated to all other mount points. Mounting a volume in shared mode does not restrict any other container from mounting and making changes to that volume. As this is likely not a desirable option from a security standpoint, this feature should not be used unless explicitly required.Ensure mount propagation mode is not set to shared"
   local remediation="Do not mount volumes in shared mode propagation."
   local remediationImpact="None."
   local check="$id  - $desc"
@@ -864,9 +813,7 @@ check_5_20() {
 
   local id="5.20"
   local desc="Ensure that the host's UTS namespace is not shared "
-  local remediation="Sharing the UTS namespace with the host provides full permission for each container to
-change the hostname of the host. This is not in line with good security practice and should
-not be permitted.You should not start a container with the --uts=host argument."
+  local remediation="Sharing the UTS namespace with the host provides full permission for each container to change the hostname of the host. This is not in line with good security practice and should not be permitted.You should not start a container with the --uts=host argument."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -906,11 +853,7 @@ check_5_21() {
 
   local id="5.21"
   local desc="Ensurethe default seccomp profile is not Disabled "
-  local remediation="A large number of system calls are exposed to every userland process with many of them
-going unused for the entire lifetime of the process. Most of applications do not need all
-these system calls and would therefore benefit from having a reduced set of available
-system calls. Having a reduced set of system calls reduces the total kernel surface exposed
-to the application and thus improvises application security.By default, seccomp profiles are enabled. You do not need to do anything unless you want to modify and use a modified seccomp profile."
+  local remediation="A large number of system calls are exposed to every userland process with many of them going unused for the entire lifetime of the process. Most of applications do not need all these system calls and would therefore benefit from having a reduced set of available system calls. Having a reduced set of system calls reduces the total kernel surface exposed to the application and thus improvises application security.By default, seccomp profiles are enabled. You do not need to do anything unless you want to modify and use a modified seccomp profile."
   local remediationImpact="With Docker 1.10 and greater, the default seccomp profile blocks syscalls, regardless of -- cap-add passed to the container."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -949,9 +892,7 @@ check_5_22() {
 
   local id="5.22"
   local desc="Ensure that docker exec commands are not used with the privileged option "
-  local remediation="Using the --privileged option in docker exec commands gives extended Linux
-capabilities to the command. This could potentially be an insecure practice, particularly
-when you are running containers with reduced capabilities or with enhanced restrictions.You should not use the --privileged option in docker exec commands."
+  local remediation="Using the --privileged option in docker exec commands gives extended Linux capabilities to the command. This could potentially be an insecure practice, particularly when you are running containers with reduced capabilities or with enhanced restrictions.You should not use the --privileged option in docker exec commands."
   local remediationImpact="If you need enhanced capabilities within a container, then run it with all the permissions it requires. These should be specified individually."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -967,12 +908,7 @@ check_5_23() {
 
   local id="5.23"
   local desc="Ensure that docker exec commands are not used with the user=root option "
-  local remediation="Using the --user=root option in a docker exec command, executes it within the container
-as the root user. This could potentially be insecure, particularly when you are running
-containers with reduced capabilities or enhanced restrictions.
-For example, if your container is running as a tomcat user (or any other non-root user), it
-would be possible to run a command through docker exec as root with the --user=root
-option. This could potentially be dangerous.You should not use the --user=root option in docker exec commands."
+  local remediation="Using the --user=root option in a docker exec command, executes it within the container as the root user. This could potentially be insecure, particularly when you are running containers with reduced capabilities or enhanced restrictions. For example, if your container is running as a tomcat user (or any other non-root user), it would be possible to run a command through docker exec as root with the --user=root option. This could potentially be dangerous.You should not use the --user=root option in docker exec commands."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
