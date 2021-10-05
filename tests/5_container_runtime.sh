@@ -405,8 +405,7 @@ check_5_10() {
 
   local id="5.10"
   local desc="Ensure that the memory usage for containers is limited"
-  local remediation="By default a container can use all of the memory on the host. You can use memory limit mechanisms to prevent a denial of service occurring where one container consumes all of
-the hosts resources and other containers on the same host are therefore not able to function. Having no limit on memory usage can lead to issues where one container can easily make the whole system unstable and as a result unusable.You should run the container with only as much memory as it requires by using the --memory argument."
+  local remediation="By default a container can use all of the memory on the host. You can use memory limit mechanisms to prevent a denial of service occurring where one container consumes all of the hosts resources and other containers on the same host are therefore not able to function. Having no limit on memory usage can lead to issues where one container can easily make the whole system unstable and as a result unusable.You should run the container with only as much memory as it requires by using the --memory argument."
   local remediationImpact="If correct memory limits are not set on each container, one process can expand its usage and cause other containers to run out of resources."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -773,8 +772,8 @@ check_5_19() {
   fi
 
   local id="5.19"
-  local desc="A shared mount is replicated at all mounts and changes made at any mount point are propagated to all other mount points. Mounting a volume in shared mode does not restrict any other container from mounting and making changes to that volume. As this is likely not a desirable option from a security standpoint, this feature should not be used unless explicitly required.Ensure mount propagation mode is not set to shared"
-  local remediation="Do not mount volumes in shared mode propagation."
+  local desc="Ensure mount propagation mode is not set to shared"
+  local remediation="A shared mount is replicated at all mounts and changes made at any mount point are propagated to all other mount points. Mounting a volume in shared mode does not restrict any other container from mounting and making changes to that volume. As this is likely not a desirable option from a security standpoint, this feature should not be used unless explicitly required.Do not mount volumes in shared mode propagation."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -970,10 +969,7 @@ check_5_25() {
   fi
   local id="5.25"
   local desc="Ensure that the container is restricted from acquiring additional privileges "
-  local remediation="A process can set the no_new_priv bit in the kernel and this persists across forks, clones
-and execve. The no_new_priv bit ensures that the process and its child processes do not
-gain any additional privileges via suid or sgid bits. This reduces the danger associated with
-many operations because the possibility of subverting privileged binaries is lessened.You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash"
+  local remediation="A process can set the no_new_priv bit in the kernel and this persists across forks, clones and execve. The no_new_priv bit ensures that the process and its child processes do not gain any additional privileges via suid or sgid bits. This reduces the danger associated with many operations because the possibility of subverting privileged binaries is lessened.You should start your container with the options: docker run --rm -it --security-opt=no-new-privileges ubuntu bash"
   local remediationImpact="The no_new_priv option prevents LSMs like SELinux from allowing processes to acquire new privileges."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -1011,9 +1007,7 @@ check_5_26() {
 
   local id="5.26"
   local desc="Ensure that container health is checked at runtime "
-  local remediation="If the container image you are using does not have a pre-defined HEALTHCHECK instruction,
-use the --health-cmd parameter to check container health at runtime.
-Based on the reported health status, remedial actions can be taken if necessary.You should run the container using the --health-cmd parameter."
+  local remediation="If the container image you are using does not have a pre-defined HEALTHCHECK instruction, use the --health-cmd parameter to check container health at runtime. Based on the reported health status, remedial actions can be taken if necessary.You should run the container using the --health-cmd parameter."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -1049,10 +1043,7 @@ check_5_27() {
 
   local id="5.27"
   local desc="Ensure that Docker commands always make use of the latest version of their image "
-  local remediation="Multiple Docker commands such as docker pull , docker run etc. are known to have an
-issue where by default, they extract the local copy of the image, if present, even though
-there is an updated version of the image with the same tag in the upstream repository. This
-could lead to using older images containing known vulnerabilites.You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements."
+  local remediation="Multiple Docker commands such as docker pull , docker run etc. are known to have an issue where by default, they extract the local copy of the image, if present, even though there is an updated version of the image with the same tag in the upstream repository. This could lead to using older images containing known vulnerabilites.You should use proper version pinning mechanisms (the <latest> tag which is assigned by default is still vulnerable to caching attacks) to avoid extracting cached older versions. Version pinning mechanisms should be used for base images, packages, and entire images. You can customize version pinning rules according to your requirements."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -1069,11 +1060,7 @@ check_5_28() {
 
   local id="5.28"
   local desc="Ensure that the PIDs cgroup limit is used"
-  local remediation="Attackers could launch a fork bomb with a single command inside the container. This fork
-bomb could crash the entire system and would require a restart of the host to make the
-system functional again. Using the PIDs cgroup parameter --pids-limit would prevent
-this kind of attack by restricting the number of forks that can happen inside a container
-within a specified time frame.Use --pids-limit flag with an appropriate value when launching the container."
+  local remediation="Attackers could launch a fork bomb with a single command inside the container. This fork bomb could crash the entire system and would require a restart of the host to make the system functional again. Using the PIDs cgroup parameter --pids-limit would prevent this kind of attack by restricting the number of forks that can happen inside a container within a specified time frame.Use --pids-limit flag with an appropriate value when launching the container."
   local remediationImpact="Set the PIDs limit value as appropriate. Incorrect values might leave containers unusable."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -1113,9 +1100,7 @@ check_5_29() {
 
   local id="5.29"
   local desc="Ensure that Docker's default bridge "docker0" is not used "
-  local remediation="Docker connects virtual interfaces created in bridge mode to a common bridge called
-docker0 . This default networking model is vulnerable to ARP spoofing and MAC flooding
-attacks as there is no filtering applied to it.You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network."
+  local remediation="Docker connects virtual interfaces created in bridge mode to a common bridge called docker0 . This default networking model is vulnerable to ARP spoofing and MAC flooding attacks as there is no filtering applied to it.You should follow the Docker documentation and set up a user-defined network. All the containers should be run in this network."
   local remediationImpact="User-defined networks need to be configured and managed in line with organizational security policy."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -1164,10 +1149,8 @@ check_5_30() {
   fi
 
   local id="5.30"
-  local desc="User namespaces ensure that a root process inside the container will be mapped to a non-
-root process outside the container. Sharing the user namespaces of the host with the
-container does not therefore isolate users on the host from users in the containers.Ensure that the host's user namespaces are not shared"
-  local remediation="You should not share user namespaces between host and containers."
+  local desc="Ensure that the host's user namespaces are not shared"
+  local remediation="User namespaces ensure that a root process inside the container will be mapped to a non-root process outside the container. Sharing the user namespaces of the host with the container does not therefore isolate users on the host from users in the containers.You should not share user namespaces between host and containers."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
@@ -1204,10 +1187,8 @@ check_5_31() {
   fi
 
   local id="5.31"
-  local desc="If the Docker socket is mounted inside a container it could allow processes running within
-the container to execute Docker commands which would effectively allow for full control of
-the host.Ensure that the Docker socket is not mounted inside any containers"
-  local remediation="You should ensure that no containers mount docker.sock as a volume."
+  local desc="Ensure that the Docker socket is not mounted inside any containers"
+  local remediation="If the Docker socket is mounted inside a container it could allow processes running within the container to execute Docker commands which would effectively allow for full control of the host.You should ensure that no containers mount docker.sock as a volume."
   local remediationImpact="None."
   local check="$id  - $desc"
   starttestjson "$id" "$desc"
