@@ -2,7 +2,7 @@ Forked from Docker-Bench-Security, a script that checks for dozens of common bes
 
 The list with all tests is available [here](tests/TESTS.md).
 
-## Running Docker Bench for Security
+## Running Dockfile Creator Bench
 
 This script focuses on the Container Image tests and Runtime tests. You have to test one Image at a time. You have to put your Image in the directory "yourimghere" and after building it you can run the script. In the directory "solutions" you will find the new dockerfile with recommendations.
 
